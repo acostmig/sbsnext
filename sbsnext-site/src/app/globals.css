@@ -1,0 +1,51 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #4f46e5; /* Hex value for indigo-600 */
+  --color-cta: #4f46e5; /* Hex value for indigo-600 */
+  --color-cta-hover: #6366f1; /* Hex value for indigo-500 */
+}
+
+:root {
+  --background: var(--color-white);
+  --foreground: var(--color-black);
+  @apply sm:text-base text-sm;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: var(--color-black);
+    --foreground: var(--color-white);
+    --color-primary: var(--color-white);
+  }
+}
+
+.cta-button {
+  @apply rounded-md px-3.5 py-2.5 text-sm font-semibold text-white 
+  bg-[var(--color-cta)] 
+  focus-visible:outline-2 focus-visible:outline-offset-2;
+}
+
+.cta-button:hover {
+  @apply bg-[var(--color-cta-hover)];
+}
+
+body {
+  color: var(--foreground);
+  background: var(--background);
+  font-family: Arial, Helvetica, sans-serif;
+}
+
+.fill-y {
+  @apply flex-grow flex flex-col
+}
+
+.clipped-shape {
+  clip-path: polygon(
+    74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 
+    80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 
+    47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 
+    17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%
+  );
+  
+}
