@@ -10,21 +10,15 @@ export const Services = [
   },
   {
     id: 2,
-    title: "Test Automation",
-    description: "Developing scalable test infrastructures with tools like Selenium and Playwright, addressing high failure rates, and implementing holistic approaches to maximize value.",
-    icon: BeakerIcon,
+    title: "Artificial Inteligence",
+    description: "Leveraging AI/ML SDKs to create solutions like chatbots, code generators, and decision-making tools that boost innovation and business efficiency.",
+    icon: LightBulbIcon,
   },
   {
     id: 3,
-    title: "Automation Tools Development",
-    description: "Developing tailored API testing solutions and automation tools to meet unique client requirements and enhance operational efficiency.",
+    title: "Automation Tool Development",
+    description: "Developing customized testing solutions and automation tools to meet unique client requirements and enhance operational efficiency.",
     icon: WrenchScrewdriverIcon,
-  },
-  {
-    id: 4,
-    title: "Artificial Inteligence",
-    description: "Leveraging AI/ML to create solutions like chatbots, code generators, and decision-making tools that boost innovation and business efficiency.",
-    icon: LightBulbIcon,
   },
 ];
 
@@ -46,12 +40,12 @@ export default function Hero({className}: HeroProps){
             className="clipped-shape relative left-[calc(50%-11rem)] aspect-1155/678 w-[36.125rem] 
            -translate-x-1/2 rotate-[30deg] 
            bg-linear-to-tr from-[#ff80b5] to-[#9089fc] 
-           opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+           opacity-40 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
           />
         </div>
 
 
-        <div className="mx-auto max-w-4xl fill-y">
+        <div className=" fill-y">
 
           {/* chatbot */}
           <div className="hidden sm:flex sm:justify-center sm:items-center">
@@ -70,11 +64,11 @@ export default function Hero({className}: HeroProps){
                 What We Do Best
               </h1>
             </div>
-            <div className="grid md:grid-cols-4 gap-3">
+            <div className="grid md:grid-cols-3 gap-3">
               {Services.map(({ id, title, description, icon: Icon }) => (
                 <div key={id} className="px-6 py-3 sm:py-10 shadow-lg rounded-2xl border flex flex-col items-center">
                   <Icon className="h-8 w-8 sm:h-8 sm:w-8 opacity-80 mb-4" />
-                  <h3 className="text-2xl font-semibold opacity-80 mb-2 min-h-15">{title}</h3>
+                  <h3 className="text-2xl font-semibold opacity-80 mb-2 min-h-18">{title}</h3>
                   <span className="opacity-55">
                     {description}
                   </span>

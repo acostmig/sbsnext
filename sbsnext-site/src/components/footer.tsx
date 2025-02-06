@@ -2,7 +2,7 @@ export default function Footer() {
   return (
     <footer className="w-full bg-gray-900 text-gray-400 py-6">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-6">
-        <p className="text-sm">&copy; {new Date().getFullYear()} SBSNext. All rights reserved.</p>
+        <p className="text-sm">&copy; {new Date().getFullYear()} SBSNext LLC. All rights reserved.</p>
         <a
           href="https://www.linkedin.com/in/miguel-acosta"
           target="_blank"
