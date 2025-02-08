@@ -17,6 +17,7 @@
     --background: var(--color-black);
     --foreground: var(--color-white);
     --color-primary: var(--color-white);
+    
   }
 }
 
@@ -49,3 +50,6 @@ body {
   );
   
 }
+
+
+

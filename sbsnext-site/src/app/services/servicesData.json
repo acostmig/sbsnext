@@ -1,0 +1,94 @@
+[
+    {
+        "title": "AI-Powered Innovation",
+        "id": "ai-section",
+        "description": "AI is transforming industries, but unlocking its full potential requires the right strategy. We help businesses integrate AI effectively, turning possibilities into real-world impact.",
+        "content": [
+            {
+                "title": "AI as a Strategic Advantage",
+                "text": "AI is a strategic enabler that enhances decision-making, streamlines operations, and drives innovation. With the right expertise, it can be tailored to solve complex challenges, optimize workflows, and unlock new opportunities across industries."
+            },
+            {
+                "id": "chatbot",
+                "title": "SBSNext ChatBot",
+                "text": "A specialized AI chatbot that answers only what it knows about our company. It provides accurate, verifiable information on how we can help, our expertise, and anything else related to us—nothing more, nothing less.",
+                "cta": "Start Chatting"
+            },
+            {
+                "id": "automation",
+                "title": "Natural Language Test Automation",
+                "text": "Test automation is evolving with AI-driven natural language processing, enabling teams to automate test cases in plain English. This bridges the gap between technical and non-technical users, making software testing more intuitive and accessible.",
+                "cta": "Try it with any site"
+            }
+        ]
+    },
+    {
+        "title": "Next-Level Test Automation & QA Strategies",
+        "id": "test-section",
+        "description": "Engineered for reliability, scalability, and efficiency—our solutions optimize testing strategies, automation frameworks, and CI/CD to deliver flawless software.",
+        "content": [
+            {
+                "title": "QA Process Optimization",
+                "text": "We strengthen software quality by improving test reliability, identifying bug-prone areas, and refining development workflows. Through targeted validations and strategic automation, we proactively reduce defects and enhance system stability."
+            },
+            {
+                "title": "Sandboxed Testing Approach",
+                "text": "Isolating(Containerizing) the application under test to enable automated testing on every commit before deploying it. This strategy allows developers to run tests locally with their changes using lightweight, reproducible environments."
+            },
+            {
+                "title": "Reliable UI Test Automation",
+                "text": "Building low-maintenance automation frameworks that ensure accurate, trustworthy test results. Our solutions are designed for scalability and flexibility, reducing noise from false failures and allowing any engineer to maintain and extend them with ease."
+            },
+            {
+                "title": "Strategic API Test Automation",
+                "text": "Designing API test solutions that align with business goals, providing broad coverage at a lower cost than UI testing. Our architecture allows other testing strategies to leverage this implementation for efficient data setup and seamless integration."
+            },
+            {
+                "title": "Performance Testing",
+                "text": "Monitoring performance trends with automated baselines and anomaly detection, generating reports on every code change. Our approach ensures critical slowdowns trigger release blockers, while minor fluctuations are handled based on defined thresholds."
+            },
+            {
+                "title": "Stress & Load Testing",
+                "text": "Deploying scalable solutions with tools like JMeter or Artillery. We specialize in deploying the necessary infrastructure, enabling load-intensive scenarios. We also provide customized reports relevant to your business."
+            }
+        ]
+    },
+    {
+        "title": "Full-Stack Development",
+        "id": "dev-section",
+        "description": "Building reliable, maintainable, and scalable applications that integrate seamlessly with business needs.",
+        "content": [
+            {
+                "title": "Efficient Web & API Development",
+                "text": "Delivering clean, scalable web applications and APIs that support business operations without unnecessary complexity."
+            },
+            {
+                "title": "Enterprise-Grade Solutions",
+                "text": "Implementing secure, high-performance architectures that scale with business growth and technical demands."
+            },
+            {
+                "title": "Cloud Deployment & Optimization",
+                "text": "Setting up and refining cloud environments with Azure or AWS laveraging tools like Kubernetes for scalable and cost-effective solutions."
+            }
+        ]
+    },
+    {
+        "title": "Elite Consulting",
+        "id": "consulting-section",
+        "description": "Solving real engineering challenges with hands-on expertise in automation, DevOps, and quality engineering. We don’t just advise—we execute.",
+        "content": [
+            {
+                "title": "Unlocking Automation Bottlenecks",
+                "text": "We identify inefficiencies in automation frameworks, optimize test execution, and implement scalable solutions to reduce test flakiness and improve reliability."
+            },
+            {
+                "title": "Seamless Dev, QA and Business Integration",
+                "text": "Bridging gaps between development and testing by refining workflows, improving test trust, and ensuring teams can ship confidently without regressions."
+            },
+            {
+                "title": "Scalability & Performance Engineering",
+                "text": "Ensuring your systems handle growth by improving CI/CD pipelines, optimizing infrastructure, and implementing robust performance testing strategies."
+            }
+        ]
+    }
+]

@@ -2,31 +2,32 @@
 import { CodeBracketSquareIcon, BeakerIcon, WrenchScrewdriverIcon, LightBulbIcon } from "@heroicons/react/24/solid";
 
 export const Services = [
+
+  {
+    id: 2,
+    title: "Artificial Inteligence",
+    "description": "Leveraging AI/ML SDKs to build intelligent solutions—ranging from chatbots and code generators to predictive analytics and decision-making tools that drive innovation and efficiency across industries."
+    , icon: LightBulbIcon,
+  },
+  {
+    id: 3,
+    title: "Test Automation Engineering",
+    description: "Designing reliable automation processes and building custom tools to create stable, low-maintenance tests that teams can trust. These solutions seamlessly integrate into development workflows, ensuring confidence in test results and enabling strong quality control between releases.",
+    icon: WrenchScrewdriverIcon,
+  },
   {
     id: 1,
     title: "Full-Stack Development",
     description: "Designing and building custom software solutions to address unique business challenges, leveraging modern technologies to deliver scalable, high-performance applications.",
     icon: CodeBracketSquareIcon,
-  },
-  {
-    id: 2,
-    title: "Artificial Inteligence",
-    description: "Leveraging AI/ML SDKs to create solutions like chatbots, code generators, and decision-making tools that boost innovation and business efficiency.",
-    icon: LightBulbIcon,
-  },
-  {
-    id: 3,
-    title: "Automation Tool Development",
-    description: "Developing customized testing solutions and automation tools to meet unique client requirements and enhance operational efficiency.",
-    icon: WrenchScrewdriverIcon,
-  },
+  }
 ];
 
-type HeroProps={
-  className?:string;
+type HeroProps = {
+  className?: string;
 };
 
-export default function Hero({className}: HeroProps){
+export default function Hero({ className }: HeroProps) {
   return (
     <div className={className} >
       <div className="relative isolate px-6 pt-10 lg:px-8 fill-y">
