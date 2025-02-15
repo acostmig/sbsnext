@@ -1,6 +1,5 @@
 'use server';
 
-import { z } from 'zod';
 import { createUser, getUser } from '@/lib/db/queries';
 import { headers } from 'next/headers';
 import { User } from '@/lib/db/schema';

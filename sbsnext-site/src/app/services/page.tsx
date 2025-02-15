@@ -75,7 +75,7 @@ const ServicesPage = () => {
 
       {/* FOOTER */}
       <footer className="text-center py-16">
-        <h3 className="text-2xl font-bold">Let's Build Something Extraordinary</h3>
+        <h3 className="text-2xl font-bold">Let&apos;s Build Something Extraordinary</h3>
         <p className="mt-2">Contact us to discuss your project and see how we can help.</p>
         <div className="mt-6">
           <a href="mailto:info@sbsnext.com" className="cta-button">

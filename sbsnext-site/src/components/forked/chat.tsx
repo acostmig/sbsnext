@@ -4,11 +4,8 @@ import type { Attachment, Message } from 'ai';
 import { useChat } from 'ai/react';
 import { useState } from 'react';
 import useSWR, { useSWRConfig } from 'swr';
-
-import { ChatHeader } from '@/components/forked/chat-header';
 import type { Vote } from '@/lib/db/schema';
 import { fetcher, generateUUID } from '@/lib/utils';
-
 import { Block } from './block';
 import { MultimodalInput } from './multimodal-input';
 import { Messages } from './messages';
@@ -111,10 +108,11 @@ export function Chat({
     experimental_throttle: 100,
     sendExtraMessageFields: true,
     generateId: generateUUID,
-    onFinish: (msg) => {
+    onFinish: () => {
       mutate('/api/history');
     },
-    onError: (error) => {
+    onError: (error: any) => {
+      console.error(error);
       toast.error('An error occured, please try again!');
     },
   });

@@ -1,10 +1,7 @@
 'use client';
 
-import { useCallback, useState } from 'react';
-import { CodeIcon, LoaderIcon, PlayIcon, PythonIcon } from './icons';
-import { Button } from './ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
-import { cn } from '@/lib/utils';
+import { useState } from 'react';
+
 
 interface CodeBlockProps {
   node: any;
@@ -14,19 +11,13 @@ interface CodeBlockProps {
 }
 
 export function CodeBlock({
-  node,
   inline,
   className,
   children,
   ...props
 }: CodeBlockProps) {
-  const [output, setOutput] = useState<string | null>(null);
-  const [pyodide, setPyodide] = useState<any>(null);
-  const match = /language-(\w+)/.exec(className || '');
-  const isPython = match && match[1] === 'python';
-  const isCSharp = match && match[1] === 'csharp';
-  const codeContent = String(children).replace(/\n$/, '');
-  const [tab, setTab] = useState<'code' | 'run'>('code');
+  const [output] = useState<string | null>(null);
+  const [tab] = useState<'code' | 'run'>('code');
   
   if (!inline) {
     return (
