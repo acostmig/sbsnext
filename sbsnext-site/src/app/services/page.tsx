@@ -3,13 +3,14 @@
 import React from 'react';
 import servicesData from './servicesData.json';
 import { ArrowDownIcon } from '@heroicons/react/24/solid';
+import { ClockIcon } from '@heroicons/react/24/outline';
 
 const ServicesPage = () => {
   const section0Ref = React.useRef<HTMLElement>(null);
 
   return (
     <main className="bg-[var(--background)] text-[var(--foreground)] mx-5">
-      <header className="text-center min-h-screen flex flex-col items-center">
+      <header className="text-center min-h-screen flex flex-col items-center relative">
         <h2 className="text-sm pt-32 font-semibold tracking-widest uppercase text-[var(--color-primary)] ">
           Our Expertise
         </h2>
@@ -18,14 +19,12 @@ const ServicesPage = () => {
           We craft solutions that push boundaries, combining deep expertise, strategic thinking, and innovation to drive lasting impact.
         </p>
         {/* Arrow Down Button */}
-        <div className="mt-12 absolute bottom-10 right-10 transform -translate-x-1/2">
-            <button
-              onClick={() => section0Ref.current?.scrollIntoView({ behavior: 'smooth' })}
-              className="mt-8 p-3 cta-button flex items-center justify-center animate-bounce shadow-lg"
-            >
-              <ArrowDownIcon className="h-6 w-6" />
-            </button>
-        </div>
+          <button
+            onClick={() => section0Ref.current?.scrollIntoView({ behavior: 'smooth' })}
+            className="absolute bottom-10 right-10 p-3 cta-button flex items-center justify-center animate-bounce shadow-lg"
+          >
+            <ArrowDownIcon className="h-6 w-6" />
+          </button>
       </header>
       <div>
         {servicesData.map(({ id, title, description, content }, index) => (
@@ -38,7 +37,7 @@ const ServicesPage = () => {
             {/* Background overlay */}
             <div className="absolute inset-0 bg-[var(--background)] bg-opacity-60"></div>
 
-            <div className="relative z-10 max-w-4xl mx-auto">
+            <div className="relative max-w-4xl mx-auto">
               <h3 className="text-4xl font-semibold mb-2">{title}</h3>
               <p className="text-lg mb-10">{description}</p>
 
@@ -58,13 +57,7 @@ const ServicesPage = () => {
                     </div>
 
                     {/* Try it Out CTA */}
-                    {id === "chatbot" || id === "automation" ? (
-                      <div className="mt-4 w-auto inline-block">
-                        <a href={"/" + id} className="cta-button">
-                          {cta}&rarr;
-                        </a>
-                      </div>
-                    ) : null}
+                    <CTA id={id} input={cta}/>
                   </div>
                 ))}
               </div>
@@ -93,5 +86,51 @@ const ServicesPage = () => {
     </main>
   );
 };
+
+
+const CTA = ({ id, input } : {id?:string, input?:string}) => {
+  if (input) {
+    if(input==="indev")
+    {
+      return (
+        <div className="mt-4 w-auto inline-block">
+         <UnderConstruction/>
+        </div>
+      )
+    }
+    return (
+      <div className="mt-4 w-auto inline-block">
+        <a href={"/" + id} className="cta-button">
+          {input}&rarr;
+        </a>
+      </div>
+    );
+  }
+  return null;
+};
+
+function UnderConstruction() {
+  return (
+    <div className="flex items-center justify-center w">
+      {/* Rope */}
+      <div className="relative flex flex-col items-center">
+        <div className="w-0.5 h-6 bg-gray-700 animate-rope-swing"></div>
+
+        {/* Hanging sign */}
+        <div className="relative">
+          <div className="bg-yellow-500 border-2 border-black rounded-md flex items-center justify-center 
+                          text-black font-bold text-sm shadow-xl transform origin-top animate-swing">
+            UNDER CONSTRUCTION
+            <ClockIcon className="px-2 h-4"/>
+
+          </div>
+
+        </div>
+      </div>
+      
+    </div>
+  );
+}
+
 
 export default ServicesPage;

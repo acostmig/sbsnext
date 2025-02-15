@@ -1,5 +1,6 @@
 "use client"
 import { CodeBracketSquareIcon, BeakerIcon, WrenchScrewdriverIcon, LightBulbIcon } from "@heroicons/react/24/solid";
+import ContactUs from "./contact-us";
 
 export const Services = [
 
@@ -27,6 +28,7 @@ type HeroProps = {
   className?: string;
 };
 
+
 export default function Hero({ className }: HeroProps) {
   return (
     <div className={className} >
@@ -41,7 +43,7 @@ export default function Hero({ className }: HeroProps) {
             className="clipped-shape relative left-[calc(50%-11rem)] aspect-1155/678 w-[36.125rem] 
            -translate-x-1/2 rotate-[30deg] 
            bg-linear-to-tr from-[#ff80b5] to-[#9089fc] 
-           opacity-40 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
+           opacity-30 sm:left-[calc(50%-30rem)] sm:w-[72.1875rem]"
           />
         </div>
 
@@ -51,8 +53,8 @@ export default function Hero({ className }: HeroProps) {
           {/* chatbot */}
           <div className="hidden sm:flex sm:justify-center sm:items-center">
             <div className="relative rounded-full px-3 py-1 text-sm/6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
-              Talk to our bot and discover who we are. {' '}
-              <a href="#" className="font-semibold text-cta">
+              Talk to our bot and discover who we are and what we do. {' '}
+              <a href="/chat" className="font-semibold text-cta">
                 <span aria-hidden="true" className="absolute inset-0" />
                 Start Chatting <span aria-hidden="true">&rarr;</span>
               </a>
@@ -77,12 +79,13 @@ export default function Hero({ className }: HeroProps) {
               ))}
             </div>
             <div className="mt-8 flex items-center justify-center gap-x-6 flex-grow">
-              <a
-                href="#"
-                className="cta-button shadow-sx"
-              >
-                Let's Talk
-              </a>
+              <ContactUs>
+                <button
+                  className="cta-button shadow-sx"
+                >
+                  Let's Talk
+                </button>
+              </ContactUs>
               <a href="/services" className="font-semibold">
                 Discover our Approach <span aria-hidden="true">→</span>
               </a>

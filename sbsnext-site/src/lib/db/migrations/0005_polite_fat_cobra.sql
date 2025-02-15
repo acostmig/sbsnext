@@ -1,0 +1,6 @@
+ALTER TABLE "User" ALTER COLUMN "email" DROP NOT NULL;--> statement-breakpoint
+
+ALTER TABLE "User" ADD COLUMN "clientIP" varchar(64) NOT NULL DEFAULT '0.0.0.0';
+ALTER TABLE "User" ALTER COLUMN "clientIP" DROP DEFAULT;
+
+ALTER TABLE "User" DROP COLUMN "password";

@@ -18,7 +18,7 @@
                 "id": "automation",
                 "title": "Natural Language Test Automation",
                 "text": "Test automation is evolving with AI-driven natural language processing, enabling teams to automate test cases in plain English. This bridges the gap between technical and non-technical users, making software testing more intuitive and accessible.",
-                "cta": "Try it with any site"
+                "cta": "indev"
             }
         ]
     },

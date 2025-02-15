@@ -6,7 +6,16 @@ const withMDX = createMDX({
 })
 
 const nextConfig: NextConfig = {
-  /* config options here */
+  experimental: {
+    ppr: true,
+  },
+  images: {
+    remotePatterns: [
+      {
+        hostname: 'avatar.vercel.sh',
+      },
+    ],
+  },
 };
 
 

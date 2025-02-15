@@ -1,6 +1,7 @@
 "use client"
 import { CodeBracketSquareIcon, BeakerIcon, WrenchScrewdriverIcon } from "@heroicons/react/24/solid";
 import { Services } from "./hero";
+import ContactUs from "./contact-us";
 
 
 type HeroProps = {
@@ -35,22 +36,22 @@ export default function HeroSmall({ className }: HeroProps) {
             <div className="flex justify-center items-center pt-50">
               <div className="relative  px-8 py-5 text-4xl">
                 <span className="opacity-60">
-                  Talk to our bot and discover who we are. {' '}
+                  Have questions? Our chatbot has answers! {' '} <br/>
                 </span>
-                <a href="#" className="font-bold text-primary">
-                  <span aria-hidden="true" className="absolute inset-0" />
-                  Start Chatting <span aria-hidden="true">&rarr;</span>
+                <a href="/chat" className="font-bold text-primary underline">
+                  <span aria-hidden="true" className="inset-0" />
+                  Start Chatting 
                 </a>
+                <span aria-hidden="true" className="text-primary">&rarr;</span>
               </div>
             </div>
 
             <div className="flex items-center justify-center gap-x-6 flex-grow">
-              <a
-                href="#"
-                className="cta-button shadow-sx"
-              >
-                Contact Us
-              </a>
+              <ContactUs>
+                <button className="cta-button">
+                  Contact Us
+                </button>
+              </ContactUs>
               <a href="/services" className="font-semibold">
                 Discover our Approach <span aria-hidden="true">→</span>
               </a>
@@ -59,17 +60,17 @@ export default function HeroSmall({ className }: HeroProps) {
 
           <section className="">
 
-            <div className="flex-grow flex justify-center items-center">
+            <div className="flex-grow flex justify-center items-center py-5">
               <h1 className="text-4xl font-bold opacity-80">
                 What We Do Best
               </h1>
             </div>
 
-            <div className="grid md:grid-cols-3 gap-8">
+            <div className="grid md:grid-cols-3 gap-8 py-10">
               {Services.map(({ id, title, description, icon: Icon }) => (
                 <div key={id} className="px-6 py-3 sm:py-10 shadow-lg rounded-2xl border flex flex-col items-center">
                   <Icon className="h-8 w-8 sm:h-8 sm:w-8 opacity-80 mb-4" />
-                  <h3 className="text-2xl font-semibold opacity-80 mb-2">{title}</h3>
+                  <h3 className="text-lg font-semibold opacity-80 mb-2">{title}</h3>
                   <span className="opacity-55">
                     {description}
                   </span>
