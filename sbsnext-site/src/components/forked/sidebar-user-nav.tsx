@@ -1,14 +1,9 @@
 'use client';
-import { ChevronUp } from 'lucide-react';
 import Image from 'next/image';
-import { getSession } from '@/app/session';
-import { useTheme } from 'next-themes';
+
 
 import {
   DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/forked/ui/dropdown-menu';
 import {

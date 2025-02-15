@@ -33,8 +33,8 @@ const FormFields = [
 ]
 
 export default function ContactUs({ children }: { children: ReactElement }) {
-    let [isOpen, setIsOpen] = useState(false);
-    let [isSubmitting, setIsSubmitting] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
     const handleButtonClick = (event: React.MouseEvent) => {
         setIsOpen(true);

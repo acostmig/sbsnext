@@ -110,7 +110,7 @@ export async function POST(request: Request) {
                 }),
               });
             } catch (error) {
-              console.error('Failed to save chat');
+              console.error('Failed to save chat ', error);
             }
           }
         },
@@ -155,8 +155,8 @@ export async function DELETE(request: Request) {
     await deleteChatById({ id });
 
     return new Response('Chat deleted', { status: 200 });
-  } catch (error) {
-    return new Response('An error occurred while processing your request', {
+  } catch (error:any) {
+    return new Response('An error occurred while processing your request'+error?.message, {
       status: 500,
     });
   }

@@ -15,7 +15,7 @@ export async function POST(req: Request) {
         }
 
         
-        const { data, error } = await resend.emails.send({
+        const { data, error }:{data:any, error:any}= await resend.emails.send({
             from: 'SBSNext site <website@automated.sbsnext.com>',
             to: ['miguel@sbsnext.com', 'acostmig@gmail.com'],
             subject: 'Contact Us from SBSNext site',

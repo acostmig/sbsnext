@@ -1,5 +1,3 @@
-import { cookies } from 'next/headers';
-
 import { Chat } from '@/components/forked/chat';
 import { generateUUID } from '@/lib/utils';
 import { DataStreamHandler } from '@/components/forked/data-stream-handler';

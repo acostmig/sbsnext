@@ -10,9 +10,9 @@ export const submitContactUs = tool({
     emailAddress: z.string(),
   }),
   execute: async ({ phoneNumber, emailAddress }) => {
-      let msg = "Sent! We'll get back to you soon.";
+      const msg = "Sent! We'll get back to you soon.";
 
-      let contactInfo = [];
+      const contactInfo = [];
       if (phoneNumber) contactInfo.push(`phone number: ${phoneNumber}`);
       if (emailAddress) contactInfo.push(`email: ${emailAddress}`);
 
