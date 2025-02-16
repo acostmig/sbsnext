@@ -45,7 +45,7 @@ jobs:
       working-directory: ./sbsnext-site
       run: |
         pnpm install
-        pnpm build        
+        pnpm build-ci        
 
     - name: Deploy
       id: deploy
