@@ -1,7 +1,7 @@
 import { DataStreamWriter, tool } from 'ai';
 import { Session } from '@/app/session';
 import { z } from 'zod';
-import { getDocumentById, saveDocument } from '@/lib/db/queries';
+import { getDocumentById} from '@/lib/db/queries';
 import { documentHandlersByBlockKind } from '@/lib/blocks/server';
 
 interface UpdateDocumentProps {

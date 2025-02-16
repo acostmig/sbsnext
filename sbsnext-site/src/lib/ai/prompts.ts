@@ -182,7 +182,7 @@ You are a spreadsheet creation assistant. Create a spreadsheet in csv format bas
 `;
 
 export const updateDocumentPrompt = (
-  currentContent: string | null,
+  currentContent: string | null | undefined,
   type: BlockKind,
 ) =>
   type === 'text'

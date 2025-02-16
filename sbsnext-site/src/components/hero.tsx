@@ -1,6 +1,7 @@
 "use client"
-import { CodeBracketSquareIcon, BeakerIcon, WrenchScrewdriverIcon, LightBulbIcon } from "@heroicons/react/24/solid";
+import { CodeBracketSquareIcon, WrenchScrewdriverIcon, LightBulbIcon } from "@heroicons/react/24/solid";
 import ContactUs from "./contact-us";
+import Link from "next/link";
 
 export const Services = [
 
@@ -54,10 +55,10 @@ export default function Hero({ className }: HeroProps) {
           <div className="hidden sm:flex sm:justify-center sm:items-center">
             <div className="relative rounded-full px-3 py-1 text-sm/6 text-gray-600 ring-1 ring-gray-900/10 hover:ring-gray-900/20">
               Talk to our bot and discover who we are and what we do. {' '}
-              <a href="/chat" className="font-semibold text-cta">
+              <Link href="/chat" className="font-semibold text-cta">
                 <span aria-hidden="true" className="absolute inset-0" />
                 Start Chatting <span aria-hidden="true">&rarr;</span>
-              </a>
+              </Link>
             </div>
           </div>
 
@@ -83,7 +84,7 @@ export default function Hero({ className }: HeroProps) {
                 <button
                   className="cta-button shadow-sx"
                 >
-                  Let's Talk
+                  Let&apos;s Talk
                 </button>
               </ContactUs>
               <a href="/services" className="font-semibold">

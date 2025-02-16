@@ -65,7 +65,7 @@ export function useBlock() {
   );
 
   const { data: localBlockMetadata, mutate: setLocalBlockMetadata } =
-    useSWR<any>(
+    useSWR<unknown>(
       () => (block.documentId ? `block-metadata-${block.documentId}` : null),
       null,
       {

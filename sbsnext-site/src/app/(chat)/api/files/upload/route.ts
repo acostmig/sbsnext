@@ -56,12 +56,12 @@ export async function POST(request: Request) {
       });
 
       return NextResponse.json(data);
-    } catch (error) {
-      return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
+    } catch (error:any) {
+      return NextResponse.json({ error: 'Upload failed' +error.message }, { status: 500 });
     }
-  } catch (error) {
+  } catch (error:any) {
     return NextResponse.json(
-      { error: 'Failed to process request' },
+      { error: 'Failed to process request'+error.message },
       { status: 500 },
     );
   }

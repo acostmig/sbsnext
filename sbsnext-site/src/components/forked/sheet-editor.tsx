@@ -22,8 +22,6 @@ const MIN_COLS = 26;
 const PureSpreadsheetEditor = ({
   content,
   saveContent,
-  status,
-  isCurrentVersion,
 }: SheetEditorProps) => {
   const { theme } = useTheme();
 
@@ -75,7 +73,7 @@ const PureSpreadsheetEditor = ({
 
   const initialRows = useMemo(() => {
     return parseData.map((row, rowIndex) => {
-      const rowData: any = {
+      const rowData: {[key: string]: number } = {
         id: rowIndex,
         rowNumber: rowIndex + 1,
       };
@@ -94,11 +92,11 @@ const PureSpreadsheetEditor = ({
     setLocalRows(initialRows);
   }, [initialRows]);
 
-  const generateCsv = (data: any[][]) => {
+  const generateCsv = (data: unknown[][]) => {
     return unparse(data);
   };
 
-  const handleRowsChange = (newRows: any[]) => {
+  const handleRowsChange = (newRows: {[key: string]: number}[]) => {
     setLocalRows(newRows);
 
     const updatedData = newRows.map((row) => {

@@ -1,7 +1,7 @@
 "use client"
-import { CodeBracketSquareIcon, BeakerIcon, WrenchScrewdriverIcon } from "@heroicons/react/24/solid";
 import { Services } from "./hero";
 import ContactUs from "./contact-us";
+import Link from "next/link";
 
 
 type HeroProps = {
@@ -38,10 +38,10 @@ export default function HeroSmall({ className }: HeroProps) {
                 <span className="opacity-60">
                   Have questions? Our chatbot has answers! {' '} <br/>
                 </span>
-                <a href="/chat" className="font-bold text-primary underline">
+                <Link href="/chat" className="font-bold text-primary underline">
                   <span aria-hidden="true" className="inset-0" />
                   Start Chatting 
-                </a>
+                </Link>
                 <span aria-hidden="true" className="text-primary">&rarr;</span>
               </div>
             </div>

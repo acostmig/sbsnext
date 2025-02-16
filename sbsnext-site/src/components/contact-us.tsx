@@ -2,9 +2,8 @@ import { Description, Dialog, DialogBackdrop, DialogPanel, DialogTitle, Field, L
 
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { Input } from "@headlessui/react";
-import { ReactElement, useState,  FormEvent, useActionState } from "react";
+import { ReactElement, useState} from "react";
 import React from 'react';
-import { SendEmail } from '@/lib/ai/tools/submit-contact-us';
 import { toast } from 'sonner';
 import { LoaderIcon } from './forked/icons';
 
@@ -33,12 +32,11 @@ const FormFields = [
 ]
 
 export default function ContactUs({ children }: { children: ReactElement }) {
-    let [isOpen, setIsOpen] = useState(false);
-    let [isSubmitting, setIsSubmitting] = useState(false);
+    const [isOpen, setIsOpen] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-    const handleButtonClick = (event: React.MouseEvent) => {
+    const handleButtonClick = () => {
         setIsOpen(true);
-
     };
 
     async function onSubmit(formData: FormData) {

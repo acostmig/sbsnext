@@ -21,7 +21,7 @@ export const Overview = () => {
           <MessageIcon size={32} />
         </p>
         <p>
-        This AI-powered assistant provides insights into SBSNext expertise, it's purpose is to help you understand how we can address your specific needs.  
+        This AI-powered assistant provides insights into SBSNext expertise, it&apos;s purpose is to help you understand how we can address your specific needs.  
       </p>
       <p>
         Ask about our capabilities, services, or how we can support your business goals.

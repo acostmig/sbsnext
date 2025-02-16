@@ -1,9 +1,10 @@
 import { Resend } from 'resend';
 
-const resend = new Resend(process.env.RESEND_API_KEY);
 
 export async function POST(req: Request) {
     try {
+        const resend = new Resend(process.env.RESEND_API_KEY);
+
         if(process.env.DISABLE_EMAIL?.toLowerCase()==="true")
         {
             return new Response("Email Disabled", {status: 200})
@@ -15,7 +16,7 @@ export async function POST(req: Request) {
         }
 
         
-        const { data, error } = await resend.emails.send({
+        const { data, error }:{data:any, error:any}= await resend.emails.send({
             from: 'SBSNext site <website@automated.sbsnext.com>',
             to: ['miguel@sbsnext.com', 'acostmig@gmail.com'],
             subject: 'Contact Us from SBSNext site',

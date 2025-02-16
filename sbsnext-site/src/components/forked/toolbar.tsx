@@ -29,11 +29,6 @@ import { sanitizeUIMessages } from '@/lib/utils';
 
 import {
   ArrowUpIcon,
-  CodeIcon,
-  LogsIcon,
-  MessageIcon,
-  PenIcon,
-  SparklesIcon,
   StopIcon,
   SummarizeIcon,
 } from './icons';
@@ -144,7 +139,7 @@ const Tool = ({
   );
 };
 
-const randomArr = [...Array(6)].map((x) => nanoid(5));
+const randomArr = [...Array(6)].map(() => nanoid(5));
 
 const ReadingLevelSelector = ({
   setSelectedTool,
@@ -335,8 +330,8 @@ const PureToolbar = ({
   setMessages: Dispatch<SetStateAction<Message[]>>;
   blockKind: BlockKind;
 }) => {
-  const toolbarRef = useRef<HTMLDivElement>(null);
-  const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
+  const toolbarRef = useRef<HTMLDivElement>(null!);
+  const timeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const [selectedTool, setSelectedTool] = useState<string | null>(null);
   const [isAnimating, setIsAnimating] = useState(false);

@@ -473,7 +473,7 @@ function PureBlock({
                 isCurrentVersion={isCurrentVersion}
                 getDocumentContentById={getDocumentContentById}
                 isLoading={isDocumentsFetching && !block.content}
-                metadata={metadata}
+                metadata={metadata as any}
                 setMetadata={setMetadata}
               />
 

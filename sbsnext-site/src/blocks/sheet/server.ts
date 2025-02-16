@@ -41,7 +41,7 @@ export const sheetDocumentHandler = createDocumentHandler<'sheet'>({
       content: draftContent,
     });
 
-    return draftContent;
+    return {draftContent: draftContent, language: undefined};
   },
   onUpdateDocument: async ({ document, description, dataStream }) => {
     let draftContent = '';
