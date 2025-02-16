@@ -33,24 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v4
-
-    - uses: pnpm/action-setup@v4
-      name: Install pnpm
-      with:
-        version: 10
-        run_install: false
-        
-    - name: npm install, build, and test
-      working-directory: ./sbsnext-site
-      run: |
-        pnpm install
-        pnpm build
-
-    - name: remove cache
-      working-directory: ./sbsnext-site
-      run: |
-        rm -rf ./.next/cache        
+      uses: actions/checkout@v4   
 
     - name: Deploy
       id: deploy
