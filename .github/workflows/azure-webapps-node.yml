@@ -34,49 +34,44 @@ jobs:
     steps:
     - name: Checkout
       uses: actions/checkout@v4   
-
-    - name: Deploy
-      id: deploy
-      if: ${{ !env.ACT || env.DEPLOY == 'true' }}
-      uses: Azure/static-web-apps-deploy@v1
-      env:
-        PRE_BUILD_COMMAND: npm install -g pnpm && pnpm install
-        CUSTOM_BUILD_COMMAND: pnpm run build
-        VERBOSE: true
+    - uses: pnpm/action-setup@v4
+      name: Install pnpm
       with:
-        azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_POLITE_ROCK_067558A0F }}
-        repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
-        action: "upload"
-        skip_app_build: false
-        skip_api_build: true
-        app_location: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        version: 10
+        run_install: false
+
+    - name: npm install, build, and test
+      working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      run: |
+        pnpm install
+        pnpm build
         
-    # - name: Upload artifact for deployment job
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     name: node-app
-    #     path: .
+    - name: Upload artifact for deployment job
+      uses: actions/upload-artifact@v4
+      with:
+        name: node-app
+        path: .nextjs/standalone
 
-  # deploy:
-  #   permissions:
-  #     contents: none
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   environment:
-  #     name: 'Development'
-  #     url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+  deploy:
+    permissions:
+      contents: none
+    runs-on: ubuntu-latest
+    needs: build
+    environment:
+      name: 'Development'
+      url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
-  #   steps:
-  #   - name: Download artifact from build job
-  #     uses: actions/download-artifact@v4
-  #     with:
-  #       name: node-app
+    steps:
+    - name: Download artifact from build job
+      uses: actions/download-artifact@v4
+      with:
+        name: node-app
 
-    # - name: 'Deploy to Azure WebApp'
-    #   id: deploy-to-webapp
-    #   uses: azure/webapps-deploy@v3
-    #   with:
-    #     app-name: ${{ env.AZURE_WEBAPP_NAME }}
-    #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-    #     package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+    - name: 'Deploy to Azure WebApp'
+      id: deploy-to-webapp
+      uses: azure/webapps-deploy@v3
+      with:
+        app-name: ${{ env.AZURE_WEBAPP_NAME }}
+        publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
+        package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
 
