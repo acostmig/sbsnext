@@ -1,0 +1,11 @@
+{
+	"apps": [
+		{
+			"name": "sbsnext",
+			"script": "node_modules/next/dist/bin/next",
+			"args": "start",
+			"cwd": "./",
+			"exec_mode": "fork"
+		}
+	]
+}
