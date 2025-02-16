@@ -45,7 +45,8 @@ jobs:
       working-directory: ./sbsnext-site
       run: |
         pnpm install
-        pnpm build-no-cache        
+        pnpm build-no-cache
+        rm -rf ./.next/cache        
 
     - name: Deploy
       id: deploy
