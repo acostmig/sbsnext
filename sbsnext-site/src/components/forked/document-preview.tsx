@@ -24,8 +24,8 @@ import { ImageEditor } from './image-editor';
 
 interface DocumentPreviewProps {
   isReadonly: boolean;
-  result?: unknown;
-  args?: unknown;
+  result?: any;
+  args?: any;
 }
 
 export function DocumentPreview({
@@ -40,7 +40,7 @@ export function DocumentPreview({
   >(result ? `/api/document?id=${result.id}` : null, fetcher);
 
   const previewDocument = useMemo(() => documents?.[0], [documents]);
-  const hitboxRef:unknown = useRef<HTMLDivElement>(null);
+  const hitboxRef:any = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const boundingBox = hitboxRef.current?.getBoundingClientRect();

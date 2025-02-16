@@ -20,7 +20,7 @@ export const imageDocumentHandler = createDocumentHandler<'image'>({
       content: image.base64,
     });
 
-    return draftContent;
+    return {draftContent: draftContent, language: undefined};
   },
   onUpdateDocument: async ({ description, dataStream }) => {
     let draftContent = '';

@@ -31,21 +31,21 @@ export const textDocumentHandler = createDocumentHandler<'text'>({
       }
     }
 
-    return draftContent;
+    return {draftContent: draftContent, language: undefined};
   },
   onUpdateDocument: async ({ document, description, dataStream }) => {
     let draftContent = '';
 
     const { fullStream } = streamText({
       model: myProvider.languageModel('block-model'),
-      system: updateDocumentPrompt(document.content, 'text'),
+      system: updateDocumentPrompt(document.content??null, 'text'),
       experimental_transform: smoothStream({ chunking: 'word' }),
       prompt: description,
       experimental_providerMetadata: {
         openai: {
           prediction: {
             type: 'content',
-            content: document.content,
+            content: document.content??null,
           },
         },
       },
