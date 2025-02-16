@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "next dev --turbopack",
     "build": "next build",
-    "build-ci": "next build --no-lint --no-cache",
+    "build-no-cache": "next build && rm -rf ./.next/cache",
     "start": "next start",
     "lint": "next lint",
     "db:generate": "drizzle-kit generate",
