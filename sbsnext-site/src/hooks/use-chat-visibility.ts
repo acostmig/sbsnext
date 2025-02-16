@@ -33,7 +33,7 @@ export function useChatVisibility({
 
   const setVisibilityType = (updatedVisibilityType: VisibilityType) => {
     setLocalVisibility(updatedVisibilityType);
-
+    console.log("getVisibility");
     mutate<Array<Chat>>(
       '/api/history',
       (history) => {
