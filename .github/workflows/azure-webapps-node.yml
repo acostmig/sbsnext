@@ -42,7 +42,7 @@ jobs:
         run_install: false
         
     - name: npm install, build, and test
-      working-directory: ./sbsnext-site
+      working-directory: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
       run: |
         pnpm install    
 
@@ -55,6 +55,7 @@ jobs:
         action: "upload"
         skip_api_build: true
         app_build_command: pnpm build
+        app_location: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
         
     # - name: Upload artifact for deployment job
     #   uses: actions/upload-artifact@v4
