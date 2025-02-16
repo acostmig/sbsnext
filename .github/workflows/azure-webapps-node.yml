@@ -87,3 +87,4 @@ jobs:
         skip_app_build: true
         skip_api_build: true
         app_location: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+        output_location: .
