@@ -1,9 +1,11 @@
+name: Deploy inside VM
+
+
 on:
   workflow_dispatch:
 
 jobs:
   deploy:
-    needs: build
     runs-on: ubuntu-latest
 
     steps:
@@ -14,7 +16,46 @@ jobs:
           username: ${{ secrets.AZURE_VM_USERNAME }}
           key: ${{ secrets.AZURE_VM_SSH_KEY }}
           script: |
-            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            docker pull ghcr.io/sbsnext/sbsnext-site:latest
+            COMMIT_HASH="${{ github.sha }}"
+            echo "🔄 Pulling latest changes from GitHub..."
+            cd ~/sbsnext || git clone https://github.com/acostmig/sbsnext.git ~/sbsnext
+            cd ~/sbsnext
+            git fetch origin
+            git checkout $COMMIT_HASH || git checkout main  # ✅ Checkout the exact commit or fallback to main
+            git reset --hard
+            git pull origin $COMMIT_HASH || git pull origin main  # Ensure latest changes
+
+            sudo chmod 666 /var/run/docker.sock  # ✅ Fix permission issue
+
+            echo "Logging into GitHub Container Registry (GHCR)..."
+            echo "${{ secrets.GHCR_PAT }}" | sudo -S docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+            echo "Stopping old containers..."
             docker-compose down
-            docker-compose up -d
+
+            KEYVAULT_NAME="sbsnext-website"
+            SECRET_NAMES=$(az keyvault secret list --vault-name $KEYVAULT_NAME --query "[].name" -o tsv)
+
+            # Create or overwrite the .env file
+            ENV_FILE=".env"
+            echo "# Auto-generated .env file from Azure Key Vault" > $ENV_FILE
+
+            # Loop through each secret
+            for SECRET_NAME in $SECRET_NAMES; do
+                # Replace dashes (-) with underscores (_)
+                ENV_VAR_NAME=$(echo "$SECRET_NAME" | tr '-' '_')
+
+                # Fetch secret value
+                SECRET_VALUE=$(az keyvault secret show --vault-name $KEYVAULT_NAME --name "$SECRET_NAME" --query "value" -o tsv)
+
+                # Append to .env file
+                echo "$ENV_VAR_NAME=\"$SECRET_VALUE\"" >> $ENV_FILE
+            done
+
+
+            echo " Pulling latest images..."
+            docker-compose pull
+
+            echo "Starting services..."
+            docker-compose up -d --remove-orphans
+            KEYVAULT_NAME="sbsnext-website"

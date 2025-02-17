@@ -1,4 +1,23 @@
 services:
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+    restart: always
+    ports:
+      - "80:80"   # Expose HTTP
+      - "443:443" # Expose HTTPS (optional for SSL)
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf:ro  # NGINX config
+      - /etc/letsencrypt/live/sbsnext.com:/etc/letsencrypt/live/sbsnext.com:ro  # SSL certificates
+      - /etc/letsencrypt/archive/sbsnext.com:/etc/letsencrypt/archive/sbsnext.com:ro  # Cert archive
+      - /etc/letsencrypt:/etc/letsencrypt:ro  # Ensure Certbot can access all certs
+    depends_on:
+      - site
+    networks:
+      - app_network
+
+      
   postgres-db:
     image: postgres:15  # ✅ Use official PostgreSQL image
     restart: always
@@ -15,11 +34,29 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    networks:
+      - app_network
+
+  init-migration:
+    image: ghcr.io/acostmig/sbsnext/site:latest  # ✅ Use the same image as site
+    container_name: db_migration
+    environment:
+      - POSTGRES_URL=postgresql://postgres:password@postgres-db:5432/db-sbsnext
+    depends_on:
+      postgres-db:
+        condition: service_healthy
+    entrypoint: ["/bin/sh", "-c", "pnpm db:migrate"]  # ✅ Run migrations before site starts
+    restart: "no"  # ✅ Exit after running migrations
+    networks:
+      - app_network
 
   site:
-    build:
-      context: ./sbsnext-site
-      dockerfile: ../site.Dockerfile
+    image: ghcr.io/acostmig/sbsnext/site:latest  # ✅ Use pre-built image
+    container_name: sbsnext_site
+    env_file: ".env"
+    depends_on:
+      postgres-db:
+        condition: service_healthy
     ports:
       - "3000:3000"
     environment:
@@ -29,7 +66,12 @@ services:
     volumes:
        - ./sbsnext-site/public:/app/public:ro  # ✅ Only hot-reload public files
        - ./sbsnext-site/next.config.js:/app/next.config.js:ro  # ✅ Keep Next.js config flexible
-
+    networks:
+      - app_network
 
 volumes:
   postgres_data:
+
+networks:
+  app_network:
+    driver: bridge
