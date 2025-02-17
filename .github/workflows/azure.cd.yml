@@ -1,3 +1,6 @@
+name: Deploy inside VM
+
+
 on:
   workflow_dispatch:
 
@@ -30,8 +33,28 @@ jobs:
             echo "Stopping old containers..."
             docker-compose down
 
+            SECRET_NAMES=$(az keyvault secret list --vault-name $KEYVAULT_NAME --query "[].name" -o tsv)
+
+            # Create or overwrite the .env file
+            ENV_FILE=".env"
+            echo "# Auto-generated .env file from Azure Key Vault" > $ENV_FILE
+
+            # Loop through each secret
+            for SECRET_NAME in $SECRET_NAMES; do
+                # Replace dashes (-) with underscores (_)
+                ENV_VAR_NAME=$(echo "$SECRET_NAME" | tr '-' '_')
+
+                # Fetch secret value
+                SECRET_VALUE=$(az keyvault secret show --vault-name $KEYVAULT_NAME --name "$SECRET_NAME" --query "value" -o tsv)
+
+                # Append to .env file
+                echo "$ENV_VAR_NAME=\"$SECRET_VALUE\"" >> $ENV_FILE
+            done
+
+
             echo " Pulling latest images..."
             docker-compose pull
 
             echo "Starting services..."
             docker-compose up -d --remove-orphans
+            KEYVAULT_NAME="sbsnext-website"
