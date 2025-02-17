@@ -38,12 +38,6 @@ export default function ContactUs({ children }: { children: ReactElement }) {
 
     const handleButtonClick = () => {
         setIsOpen(true);
-        sendGTMEvent({
-            event: 'contact_form_submission',
-            category: 'Form Submission',
-            label: 'Contact Us',
-            value: 1,
-          });
     };
 
     async function onSubmit(formData: FormData) {
@@ -69,6 +63,7 @@ export default function ContactUs({ children }: { children: ReactElement }) {
         });
         if(response.ok)
         {
+            reportConversion();
             toast.success("Sent! we'll be in touch");
             setIsOpen(false)
         }
@@ -77,6 +72,16 @@ export default function ContactUs({ children }: { children: ReactElement }) {
             toast.error("Error submitting email")
         }
         setIsSubmitting(false);
+    }
+
+    function reportConversion() {
+        sendGTMEvent({
+            event: 'conversion',
+            send_to: 'AW-16881455634/9ycFCM3ZwZ8aEJKk2vE-',
+            value: 1.0,
+            currency: 'USD'
+        });
+        return false;
     }
 
     return (
