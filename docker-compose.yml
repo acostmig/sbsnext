@@ -22,7 +22,6 @@ services:
       dockerfile: ../site.Dockerfile
     ports:
       - "3000:3000"
-    env_file: "sbsnext-site/.env.local"
     environment:
       - NODE_ENV=production
       - POSTGRES_URL=postgresql://postgres:password@postgres-db:5432/db-sbsnext
