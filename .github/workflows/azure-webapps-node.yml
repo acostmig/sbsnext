@@ -1,82 +1,32 @@
-# This workflow will build and push a node.js application to an Azure Web App when a commit is pushed to your default branch.
-#
-# This workflow assumes you have already created the target Azure App Service web app.
-# For instructions see https://docs.microsoft.com/en-us/azure/app-service/quickstart-nodejs?tabs=linux&pivots=development-environment-cli
-#
-# To configure this workflow:
-#
-# 1. Download the Publish Profile for your Azure Web App. You can download this file from the Overview page of your Web App in the Azure Portal.
-#    For more information: https://docs.microsoft.com/en-us/azure/app-service/deploy-github-actions?tabs=applevel#generate-deployment-credentials
-#
-# 2. Create a secret in your repository named AZURE_WEBAPP_PUBLISH_PROFILE, paste the publish profile contents as the value of the secret.
-#    For instructions on obtaining the publish profile see: https://docs.microsoft.com/azure/app-service/deploy-github-actions#configure-the-github-secret
-#
-# 3. Change the value for the AZURE_WEBAPP_NAME. Optionally, change the AZURE_WEBAPP_PACKAGE_PATH and NODE_VERSION environment variables below.
-#
-# For more information on GitHub Actions for Azure: https://github.com/Azure/Actions
-# For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
+name: Build and publish image
 
 on:
   push:
     branches: [ "main" ]
   workflow_dispatch:
 
-env:
-  AZURE_WEBAPP_NAME: sbsnext    # set this to your application's name
-  AZURE_WEBAPP_PACKAGE_PATH: './sbsnext-site'      # set this to the path to your web app project, defaults to the repository root
-permissions:
-  contents: read
-
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
-    - name: Checkout
-      uses: actions/checkout@v4   
+      - name: Checkout Code
+        uses: actions/checkout@v3
 
-    - name: Deploy
-      id: deploy
-      if: ${{ !env.ACT || env.DEPLOY == 'true' }}
-      uses: Azure/static-web-apps-deploy@v1
-      env:
-        PRE_BUILD_COMMAND: npm install -g pnpm && pnpm install
-        CUSTOM_BUILD_COMMAND: pnpm run build
-        VERBOSE: true
-      with:
-        azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN_POLITE_ROCK_067558A0F }}
-        repo_token: ${{ secrets.GITHUB_TOKEN }} # Used for Github integrations (i.e. PR comments)
-        action: "upload"
-        skip_app_build: false
-        skip_api_build: true
-        app_location: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
-        
-    # - name: Upload artifact for deployment job
-    #   uses: actions/upload-artifact@v4
-    #   with:
-    #     name: node-app
-    #     path: .
+      - name: Install Docker Compose
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y docker-compose
+          
+      - name: Log in to GitHub Container Registry
+        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-  # deploy:
-  #   permissions:
-  #     contents: none
-  #   runs-on: ubuntu-latest
-  #   needs: build
-  #   environment:
-  #     name: 'Development'
-  #     url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
+      - name: Build Images with Docker Compose
+        run: |
+          docker-compose build
+          docker tag sbsnext_site ghcr.io/${{ github.repository }}/site:latest
 
-  #   steps:
-  #   - name: Download artifact from build job
-  #     uses: actions/download-artifact@v4
-  #     with:
-  #       name: node-app
-
-    # - name: 'Deploy to Azure WebApp'
-    #   id: deploy-to-webapp
-    #   uses: azure/webapps-deploy@v3
-    #   with:
-    #     app-name: ${{ env.AZURE_WEBAPP_NAME }}
-    #     publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-    #     package: ${{ env.AZURE_WEBAPP_PACKAGE_PATH }}
+      - name: Push Images with Docker Compose
+        run: |
+          docker push ghcr.io/${{ github.repository }}/site:latest
 

@@ -14,6 +14,7 @@ import { DEFAULT_CHAT_MODEL } from "@/lib/ai/models";
 import { ThemeProvider } from '@/components/forked/theme-provider';
 import { Toaster } from 'sonner';
 import Script from "next/script";
+import { URL } from "url";
 
 export const viewport : Viewport = {
   initialScale: 1,
@@ -22,6 +23,7 @@ export const viewport : Viewport = {
 };
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://sbsnext.com"),
   title: "SBSNext - AI, Test Automation & Full-Stack Development",
   description: "Leveraging AI/ML to build innovative solutions, designing test automation frameworks, and delivering scalable full-stack applications.",
   keywords: "AI, ML, Test Automation, Software Development, Full-Stack, Chatbots, Code Generators, Predictive Analytics",
@@ -46,7 +48,7 @@ export const metadata: Metadata = {
     siteName: "SBSNext",
     images: [
       {
-        url: "https://sbsnext.com/images/logo.png",
+        url: "/images/logo.png",
         width: 1200,
         height: 630,
         alt: "SBSNext - AI, Test Automation & Full-Stack Development",
@@ -72,7 +74,7 @@ export const metadata: Metadata = {
       "@type": "Organization",
       "name": "SBSNext LLC",
       "url": "https://sbsnext.com",
-      "logo": "https://sbsnext.com/images/logo.png",
+      "logo": "/images/logo.png",
       "contactPoint": [
         {
           "@type": "ContactPoint",

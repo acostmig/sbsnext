@@ -20,7 +20,7 @@ import { User } from '@/lib/db/schema';
 
 export function AppSidebar({ user }: { user: User | undefined }) {
   const router = useRouter();
-  const { setOpenMobile } = useSidebar();
+  const { open, setOpenMobile } = useSidebar();
 
   return (
     <Sidebar className="group-data-[side=left]:border-r-0 mt-14">
@@ -58,9 +58,11 @@ export function AppSidebar({ user }: { user: User | undefined }) {
           </div>
         </SidebarMenu>
       </SidebarHeader>
-      <SidebarContent >
-        <SidebarHistory user={user}/>
-      </SidebarContent>
+      {open &&
+        <SidebarContent >
+          <SidebarHistory user={user} />
+        </SidebarContent>
+      }
       <SidebarFooter>{user && <SidebarUserNav user={user} />}</SidebarFooter>
     </Sidebar>
   );

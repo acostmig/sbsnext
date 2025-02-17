@@ -1,0 +1,35 @@
+services:
+  postgres-db:
+    image: postgres:15  # ✅ Use official PostgreSQL image
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: db-sbsnext
+    ports:
+      - "5432:5432"  # ✅ Expose for local development
+    volumes:
+      - ./localdb/postgress_data:/var/lib/postgresql/data  # ✅ Persistent storage (usable in prod & local)
+    healthcheck:  # ✅ Ensure DB is ready before dependent services start
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  site:
+    build:
+      context: ./sbsnext-site
+      dockerfile: ../site.Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+      - POSTGRES_URL=postgresql://postgres:password@postgres-db:5432/db-sbsnext
+    restart: unless-stopped
+    volumes:
+       - ./sbsnext-site/public:/app/public:ro  # ✅ Only hot-reload public files
+       - ./sbsnext-site/next.config.js:/app/next.config.js:ro  # ✅ Keep Next.js config flexible
+
+
+volumes:
+  postgres_data:

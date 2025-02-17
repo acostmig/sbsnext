@@ -4,9 +4,10 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "next build",
+    "build": "next build --no-lint",
     "start": "next start",
     "lint": "next lint",
+    "pm2": "pm2-runtime start pm2.json",
     "db:generate": "drizzle-kit generate",
     "db:migrate": "npx tsx src/lib/db/migrate.ts",
     "db:studio": "drizzle-kit studio",

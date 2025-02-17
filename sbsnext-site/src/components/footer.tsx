@@ -3,8 +3,6 @@ import { usePathname } from "next/navigation"; // Import usePathname
 
 export default function Footer() {
   const IsChatPage = usePathname().includes("chat");
-  console.log("chatpage?",usePathname(), IsChatPage);
-
   return (
     <footer hidden={IsChatPage===true} className="w-full bg-gray-900 text-gray-400 py-6">
       <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between px-6 gap-4">
