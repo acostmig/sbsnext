@@ -1,0 +1,13 @@
+services:
+ site:
+    build:
+      context: ./sbsnext-site
+      dockerfile: ../site.Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=production
+    restart: unless-stopped
+    volumes:
+       - ./sbsnext-site/public:/app/public:ro  # ✅ Only hot-reload public files
+       - ./sbsnext-site/next.config.js:/app/next.config.js:ro  # ✅ Keep Next.js config flexible

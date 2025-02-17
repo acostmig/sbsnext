@@ -20,13 +20,13 @@ jobs:
           
       - name: Log in to GitHub Container Registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-        
+
       - name: Ensure .env file exists
         run: touch .env
 
       - name: Build Images with Docker Compose
         run: |
-          docker-compose build
+          docker-compose -f docker-compose.build.yml build
           docker tag sbsnext_site ghcr.io/${{ github.repository }}/site:latest
 
       - name: Push Images with Docker Compose
