@@ -6,6 +6,7 @@ import { ReactElement, useState} from "react";
 import React from 'react';
 import { toast } from 'sonner';
 import { LoaderIcon } from './forked/icons';
+import { sendGTMEvent } from '@next/third-parties/google'
 
 const FormFields = [
     {
@@ -37,6 +38,12 @@ export default function ContactUs({ children }: { children: ReactElement }) {
 
     const handleButtonClick = () => {
         setIsOpen(true);
+        sendGTMEvent({
+            event: 'contact_form_submission',
+            category: 'Form Submission',
+            label: 'Contact Us',
+            value: 1,
+          });
     };
 
     async function onSubmit(formData: FormData) {

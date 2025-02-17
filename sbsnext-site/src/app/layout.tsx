@@ -15,6 +15,7 @@ import { ThemeProvider } from '@/components/forked/theme-provider';
 import { Toaster } from 'sonner';
 import Script from "next/script";
 import { URL } from "url";
+import { GoogleTagManager } from '@next/third-parties/google'
 
 export const viewport : Viewport = {
   initialScale: 1,
@@ -102,6 +103,7 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <GoogleTagManager gtmId="AW-16881455634" />
       <body
       >
         <ThemeProvider
