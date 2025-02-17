@@ -16,7 +16,7 @@ services:
       timeout: 5s
       retries: 5
 
-  sbsnext-site:
+  site:
     build:
       context: ./sbsnext-site
       dockerfile: ../site.Dockerfile

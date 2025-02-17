@@ -15,6 +15,6 @@ jobs:
           key: ${{ secrets.AZURE_VM_SSH_KEY }}
           script: |
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
-            docker pull ghcr.io/${{ github.repository }}/sbsnext-site:latest
+            docker pull ghcr.io/sbsnext/sbsnext-site:latest
             docker-compose down
             docker-compose up -d

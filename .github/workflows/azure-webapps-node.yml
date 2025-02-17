@@ -24,9 +24,9 @@ jobs:
       - name: Build Images with Docker Compose
         run: |
           docker-compose build
-          docker tag ${{ github.repository }}_sbsnext-site ghcr.io/${{ github.repository }}/sbsnext-site:latest
+          docker tag sbsnext_site ghcr.io/sbsnext_site:latest
 
       - name: Push Images with Docker Compose
         run: |
-          docker push ghcr.io/${{ github.repository }}/sbsnext-site:latest
+          docker push ghcr.io/sbsnext_site:latest
 
