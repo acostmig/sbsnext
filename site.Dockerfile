@@ -19,7 +19,7 @@ COPY --from=builder /app/public /app/public
 COPY --from=builder /app/package.json /app/package.json
 COPY --from=builder /app/pnpm-lock.yaml /app/pnpm-lock.yaml
 COPY --from=builder /app/next.config.ts /app/next.config.ts
-COPY --from=builder /app/lib /app/lib
+COPY --from=builder /app/src/lib /app/src/lib
 RUN pnpm install --force --prod
 
 
