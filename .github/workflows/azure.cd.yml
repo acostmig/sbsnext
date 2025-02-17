@@ -33,6 +33,7 @@ jobs:
             echo "Stopping old containers..."
             docker-compose down
 
+            KEYVAULT_NAME="sbsnext-website"
             SECRET_NAMES=$(az keyvault secret list --vault-name $KEYVAULT_NAME --query "[].name" -o tsv)
 
             # Create or overwrite the .env file
