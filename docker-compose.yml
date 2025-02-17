@@ -36,16 +36,16 @@ services:
     networks:
       - app_network
 
-  init-migration:
-    image: ghcr.io/acostmig/sbsnext/site:latest  # ✅ Use the same image as site
-    container_name: db_migration
-    depends_on:
-      postgres-db:
-        condition: service_healthy
-    entrypoint: ["/bin/sh", "-c", "pnpm db:migrate"]  # ✅ Run migrations before site starts
-    restart: "no"  # ✅ Exit after running migrations
-    networks:
-      - app_network
+  # init-migration:
+  #   image: ghcr.io/acostmig/sbsnext/site:latest  # ✅ Use the same image as site
+  #   container_name: db_migration
+  #   depends_on:
+  #     postgres-db:
+  #       condition: service_healthy
+  #   entrypoint: ["/bin/sh", "-c", "pnpm db:migrate"]  # ✅ Run migrations before site starts
+  #   restart: "no"  # ✅ Exit after running migrations
+  #   networks:
+  #     - app_network
 
   site:
     image: ghcr.io/acostmig/sbsnext/site:latest  # ✅ Use pre-built image
