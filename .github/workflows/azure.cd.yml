@@ -13,6 +13,7 @@ jobs:
           username: ${{ secrets.AZURE_VM_USERNAME }}
           key: ${{ secrets.AZURE_VM_SSH_KEY }}
           script: |
+            COMMIT_HASH="${{ github.sha }}"
             echo "🔄 Pulling latest changes from GitHub..."
             cd ~/sbsnext || git clone https://github.com/acostmig/sbsnext.git ~/sbsnext
             cd ~/sbsnext
