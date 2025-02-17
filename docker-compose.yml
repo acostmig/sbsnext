@@ -54,7 +54,8 @@ services:
     image: ghcr.io/acostmig/sbsnext/site:latest  # ✅ Use pre-built image
     container_name: sbsnext_site
     env_file:
-     - .env
+     - path: .env
+       required: false
     depends_on:
       postgres-db:
         condition: service_healthy
