@@ -7,7 +7,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    environment: Production
     steps:
       - name: SSH into Azure VM and Deploy
         uses: appleboy/ssh-action@master
@@ -17,15 +17,15 @@ jobs:
           key: ${{ secrets.AZURE_VM_SSH_KEY }}
           script: |
             COMMIT_HASH="${{ github.sha }}"
-            echo "🔄 Pulling latest changes from GitHub..."
+            echo "Pulling latest changes from GitHub..."
             cd ~/sbsnext || git clone https://github.com/acostmig/sbsnext.git ~/sbsnext
             cd ~/sbsnext
             git fetch origin
-            git checkout $COMMIT_HASH || git checkout main  # ✅ Checkout the exact commit or fallback to main
+            git checkout $COMMIT_HASH || git checkout main
             git reset --hard
-            git pull origin $COMMIT_HASH || git pull origin main  # Ensure latest changes
+            git pull origin $COMMIT_HASH || git pull origin main 
 
-            sudo chmod 666 /var/run/docker.sock  # ✅ Fix permission issue
+            sudo chmod 666 /var/run/docker.sock
 
             echo "Logging into GitHub Container Registry (GHCR)..."
             echo "${{ secrets.GHCR_PAT }}" | sudo -S docker login ghcr.io -u ${{ github.actor }} --password-stdin

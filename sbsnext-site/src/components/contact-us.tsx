@@ -15,6 +15,8 @@ const FormFields = [
         name: "name",
         type: "text",
         placeholder: "Miguel Acosta",
+        required:true,
+        pattern: undefined
     },
     {
         id: 2,
@@ -22,6 +24,8 @@ const FormFields = [
         name: "email",
         type: "email",
         placeholder: "miguel@sbsnext.com",
+        pattern: undefined,
+        required:true,
     },
     {
         id: 3,
@@ -113,7 +117,9 @@ export default function ContactUs({ children }: { children: ReactElement }) {
                                         <Input
                                             type={field.type}
                                             name={field.name}
+                                            required = {field.required}
                                             placeholder={field.placeholder}
+                                            pattern={field.pattern}
                                             className="inline-flex w-full flex-1 items-center justify-center leading-none  h-[35px] border 
                                         focus:outline-neutral-500 px-2.5 rounded data-[hover]:shadow data-[focus]:bg-blue-100 
                                         dark:focus:outline-neutral-950 dark:data-[focus]:bg-neutral-800"  />
