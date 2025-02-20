@@ -15,7 +15,7 @@ import { ThemeProvider } from '@/components/forked/theme-provider';
 import { Toaster } from 'sonner';
 import Script from "next/script";
 import { URL } from "url";
-import { GoogleTagManager } from '@next/third-parties/google'
+import Head from "next/head";
 
 export const viewport : Viewport = {
   initialScale: 1,
@@ -103,7 +103,33 @@ export default async function RootLayout({
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <GoogleTagManager gtmId="AW-16881455634" />
+        <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-16881455634" strategy="afterInteractive"></Script>
+        <Script>
+          {`window.dataLayer = window.dataLayer || [];
+            function gtag(){dataLayer.push(arguments);}
+            gtag('js', new Date());
+
+            gtag('config', 'AW-16881455634');
+          `}
+        </Script>
+        <Script>
+            {`
+              function gtag_report_conversion(url) {
+                var callback = function () {
+                  if (typeof(url) != 'undefined') {
+                    window.location = url;
+                  }
+                };
+                gtag('event', 'conversion', {
+                    'send_to': 'AW-16881455634/9ycFCM3ZwZ8aEJKk2vE-',
+                    'value': 1.0,
+                    'currency': 'USD',
+                    'event_callback': callback
+                });
+                return false;
+              }
+            `}
+        </Script>
       <body
       >
         <ThemeProvider

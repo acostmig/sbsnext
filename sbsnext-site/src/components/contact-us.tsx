@@ -1,3 +1,4 @@
+'use client'
 import { Description, Dialog, DialogBackdrop, DialogPanel, DialogTitle, Field, Label } from '@headlessui/react'
 
 import { Cross2Icon } from "@radix-ui/react-icons";
@@ -77,13 +78,8 @@ export default function ContactUs({ children }: { children: ReactElement }) {
     }
 
     function reportConversion() {
-        sendGTMEvent({
-            event: 'conversion',
-            value: {
-                send_to: 'AW-16881455634/9ycFCM3ZwZ8aEJKk2vE-',
-            }
-        });
-        return false;
+        window.gtag_report_conversion();
+
     }
 
     return (
