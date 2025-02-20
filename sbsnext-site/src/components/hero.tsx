@@ -62,8 +62,8 @@ export default function Hero({ className }: HeroProps) {
             </div>
           </div>
 
-          <section className="max-w-6xl mx-auto text-center px-4 fill-y">
-            <div className="flex-grow flex justify-center items-center">
+          <section className="max-w-6xl mx-auto text-center px-4 fill-y py-3">
+            <div className="flex-grow flex justify-center items-center py-3">
               <h1 className="text-4xl font-bold opacity-80">
                 What We Do Best
               </h1>
@@ -79,7 +79,7 @@ export default function Hero({ className }: HeroProps) {
                 </div>
               ))}
             </div>
-            <div className="mt-8 flex items-center justify-center gap-x-6 flex-grow">
+            <div className="mt-8 flex items-center justify-center gap-x-6 flex-grow py-5">
               <ContactUs>
                 <button
                   className="cta-button shadow-sx"

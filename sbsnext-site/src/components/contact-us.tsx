@@ -42,8 +42,6 @@ export default function ContactUs({ children }: { children: ReactElement }) {
 
     async function onSubmit(formData: FormData) {
         setIsSubmitting(true);
-        console.log("function ran")
-
        
         const jsonObject = Object.fromEntries(formData.entries());
 
