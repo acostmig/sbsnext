@@ -79,9 +79,9 @@ export default function ContactUs({ children }: { children: ReactElement }) {
     function reportConversion() {
         sendGTMEvent({
             event: 'conversion',
-            send_to: 'AW-16881455634/9ycFCM3ZwZ8aEJKk2vE-',
-            value: 1.0,
-            currency: 'USD'
+            value: {
+                send_to: 'AW-16881455634/9ycFCM3ZwZ8aEJKk2vE-',
+            }
         });
         return false;
     }
