@@ -2,10 +2,11 @@
 
 import { createUser, getUser } from '@/lib/db/queries';
 import { headers } from 'next/headers';
-import { User } from '@/lib/db/schema';
+import { User, UserContact } from '@/lib/db/schema';
 
 export interface Session {
   user: User
+  contact: UserContact | null
 }
 
 export async function getSession(): Promise<Session | null> {
@@ -13,15 +14,15 @@ export async function getSession(): Promise<Session | null> {
     if (!ip) return null; // No IP detected
 
     let users = await getUser(ip); // Fetch users from DB
-    let curentUser = users[0]; // Select the first user
+    let currentUserWithContact = users[0]; // Select the first user
 
-    if (!curentUser) {
+    if (!currentUserWithContact) {
         await createUser(ip);
         users = await getUser(ip);
-        curentUser = users[0]; 
+        currentUserWithContact = users[0]; 
     }
 
-    return { user:curentUser };
+    return { user:currentUserWithContact.User, contact: currentUserWithContact.UserContact};
 }
 
 // Utility function to extract client IP from headers

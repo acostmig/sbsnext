@@ -15,7 +15,13 @@ import { ThemeProvider } from '@/components/forked/theme-provider';
 import { Toaster } from 'sonner';
 import Script from "next/script";
 import { URL } from "url";
-import Head from "next/head";
+
+
+declare global {
+    interface Window {
+        gtag_report_conversion: () => any;
+    }
+}
 
 export const viewport : Viewport = {
   initialScale: 1,
@@ -104,7 +110,7 @@ export default async function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
         <Script async src="https://www.googletagmanager.com/gtag/js?id=AW-16881455634" strategy="afterInteractive"></Script>
-        <Script>
+        <Script id="gtm-datalayer-push">
           {`window.dataLayer = window.dataLayer || [];
             function gtag(){dataLayer.push(arguments);}
             gtag('js', new Date());
@@ -112,7 +118,7 @@ export default async function RootLayout({
             gtag('config', 'AW-16881455634');
           `}
         </Script>
-        <Script>
+        <Script id="gtm-conversion-function">
             {`
               function gtag_report_conversion(url) {
                 var callback = function () {
@@ -146,7 +152,7 @@ export default async function RootLayout({
 
           <ChatContextProvider selectedChatModelId={modelIdFromCookieId ?? DEFAULT_CHAT_MODEL}>
             <SidebarProvider defaultOpen={!isCollapsed}>
-              <AppSidebar user={session?.user} />
+              <AppSidebar session={session} />
               <SidebarInset>
                 <div className="relative flex flex-col min-h-screen">
                   <Header />

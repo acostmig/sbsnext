@@ -3,11 +3,11 @@ import { Description, Dialog, DialogBackdrop, DialogPanel, DialogTitle, Field, L
 
 import { Cross2Icon } from "@radix-ui/react-icons";
 import { Input } from "@headlessui/react";
-import { ReactElement, useState} from "react";
+import { ReactElement, useEffect, useState} from "react";
 import React from 'react';
 import { toast } from 'sonner';
 import { LoaderIcon } from './forked/icons';
-import { sendGTMEvent } from '@next/third-parties/google'
+import { usePathname } from "next/navigation";
 
 const FormFields = [
     {
@@ -37,12 +37,31 @@ const FormFields = [
     }
 ]
 
+type ContactState = "closed" | "contactUsClicked" | "tellUsWhoYouAre";
+
 export default function ContactUs({ children }: { children: ReactElement }) {
     const [isOpen, setIsOpen] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [contactState, setContactState] = useState<ContactState>("closed");
+    const [formSubmitted, setFormSubmitted] = usePersistentState("contactFormSubmitted", "false");
+    const pathname = usePathname(); // Get current path
 
+    useEffect(() => {
+        if (pathname.startsWith("/chat") && formSubmitted !== "true") {
+            setIsOpen(true);
+            setContactState("tellUsWhoYouAre");
+        }
+    }, [pathname]);
+
+    
     const handleButtonClick = () => {
+        setContactState("contactUsClicked");
         setIsOpen(true);
+    };
+
+    const handleCloseDialog = () => {
+        setContactState("closed");
+        setIsOpen(false);
     };
 
     async function onSubmit(formData: FormData) {
@@ -50,25 +69,17 @@ export default function ContactUs({ children }: { children: ReactElement }) {
        
         const jsonObject = Object.fromEntries(formData.entries());
 
-        const msg = `
-            <h2>New Contact Form Submission</h2>
-            <table border="1" cellspacing="0" cellpadding="5">
-                ${Object.entries(jsonObject)
-                    .map(([key, value]) => `<tr><td><strong>${key}</strong></td><td>${value}</td></tr>`)
-                    .join("")}
-            </table>
-        `;
-
-        const response = await fetch('/api/email', {
+        const response = await fetch('/api/contact-us', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ message: msg }),
+            body: JSON.stringify(jsonObject),
         });
         if(response.ok)
         {
             reportConversion();
             toast.success("Sent! we'll be in touch");
-            setIsOpen(false)
+            setFormSubmitted("true")
+            handleCloseDialog();
         }
         else
         {
@@ -77,6 +88,7 @@ export default function ContactUs({ children }: { children: ReactElement }) {
         setIsSubmitting(false);
     }
 
+    
     function reportConversion() {
         window.gtag_report_conversion();
 
@@ -89,16 +101,21 @@ export default function ContactUs({ children }: { children: ReactElement }) {
             </div>
 
 
-            <Dialog as="div" className="relative z-10 focus:outline-none" open={isOpen} onClose={() => setIsOpen(false)} >
+            <Dialog as="div" className="relative z-10 focus:outline-none" open={isOpen} onClose={() => handleCloseDialog()} >
                 <DialogBackdrop className="fixed inset-0 bg-black/30 dark:bg-black/80" />
                 <div className="fixed inset-0 flex w-screen items-center justify-center p-4">
                     <DialogPanel
                         className="w-full max-w-md rounded-xl bg-background p-6 backdrop-blur-2xl duration-300 ease-out data-[closed]:transform-[scale(95%)] data-[closed]:opacity-0">
-                        <DialogTitle >
-                            Get in Touch
+                       <DialogTitle>
+                            {contactState === "contactUsClicked" && "Get in Touch"}
+                            {contactState === "tellUsWhoYouAre" && "Tell Us Who You Are!"}
                         </DialogTitle>
                         <Description className="mt-2 text-sm text-muted-foreground">
-                            Fill out the form below, and our team will get back to you as soon as possible.
+                            {contactState === "contactUsClicked" && "Fill out the form below, and our team will get back to you as soon as possible."}
+                            {contactState === "tellUsWhoYouAre" && "Optional: Let us know a little about you. "} 
+                        </Description>
+                        <Description className="mt-2 text-sm text-muted-foreground">
+                            Rest assured, we won&rsquo;t send you any promotional emails.
                         </Description>
                         <form className="mt-10" action={onSubmit} >
                             {
@@ -148,4 +165,21 @@ export default function ContactUs({ children }: { children: ReactElement }) {
         </>
 
     );
+}
+
+export function usePersistentState(key: string, defaultValue: string) {
+    const [value, setValue] = useState(() => {
+        if (typeof window !== "undefined") {
+            return localStorage.getItem(key) || defaultValue;
+        }
+        return defaultValue;
+    });
+
+    useEffect(() => {
+        if (typeof window !== "undefined") {
+            localStorage.setItem(key, value);
+        }
+    }, [value]);
+
+    return [value, setValue] as const;
 }

@@ -11,9 +11,9 @@ import {
   SidebarMenuButton,
   SidebarMenuItem,
 } from '@/components/forked/ui/sidebar';
-import { User } from '@/lib/db/schema';
+import { Session } from '@/app/session';
 
-export function SidebarUserNav({user}: {user: User}) {
+export function SidebarUserNav({session}: {session: Session}) {
 
   return (
     <SidebarMenu>
@@ -22,13 +22,13 @@ export function SidebarUserNav({user}: {user: User}) {
           <DropdownMenuTrigger asChild>
             <SidebarMenuButton className="data-[state=open]:bg-sidebar-accent bg-background data-[state=open]:text-sidebar-accent-foreground h-10">
               <Image
-                src={`https://avatar.vercel.sh/${user?.clientIP}`}
-                alt={user?.email ?? 'User Avatar'}
+                src={`https://avatar.vercel.sh/${session?.user?.clientIP}`}
+                alt={session?.contact?.email ?? 'User Avatar'}
                 width={24}
                 height={24}
                 className="rounded-full"
               />
-              <span className="truncate">{user?.email}</span>
+              <span className="truncate">{session?.contact?.email}</span>
             </SidebarMenuButton>
           </DropdownMenuTrigger>
         </DropdownMenu>

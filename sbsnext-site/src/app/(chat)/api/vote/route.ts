@@ -34,7 +34,7 @@ export async function PATCH(request: Request) {
 
   const session = await getSession();
 
-  if (!session || !session.user || !session.user.email) {
+  if (!session || !session.user) {
     return new Response('Unauthorized', { status: 401 });
   }
 

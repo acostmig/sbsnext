@@ -1,19 +1,19 @@
 import 'server-only';
 
-import { and, asc, desc, eq, gt, gte, inArray } from 'drizzle-orm';
+import { and, asc, desc, eq, gt, gte, inArray, InferSelectModel } from 'drizzle-orm';
 import { drizzle } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
 
 import {
   user,
   chat,
-  type User,
   document,
   type Suggestion,
   suggestion,
   type Message,
   message,
   vote,
+  userContact,
 } from './schema';
 import { BlockKind } from '@/components/forked/block';
 
@@ -25,9 +25,19 @@ import { BlockKind } from '@/components/forked/block';
 const client = postgres(process.env.POSTGRES_URL!);
 const db = drizzle(client);
 
-export async function getUser(clientIP: string): Promise<Array<User>> {
+type UserWithContact = {
+  User: InferSelectModel<typeof user>;
+  UserContact: InferSelectModel<typeof userContact> | null; // Left join means it can be null
+};
+
+export async function getUser(clientIP: string): Promise<Array<UserWithContact>> {
   try {
-    return await db.select().from(user).where(eq(user.clientIP, clientIP));
+    return await db
+        .select()
+        .from(user)
+        .leftJoin(userContact, eq(user.id, userContact.userId))
+        .where(eq(user.clientIP, clientIP))
+        .orderBy(desc(userContact.createdAt));
   } catch (error) {
     console.error('Failed to get user from database');
     throw error;
@@ -36,9 +46,24 @@ export async function getUser(clientIP: string): Promise<Array<User>> {
 
 export async function createUser(clientIP: string) {
   try {
-    return await db.insert(user).values({clientIP: clientIP });
+    return await db.insert(user).values({clientIP: clientIP, createdAt: new Date(), });
   } catch (error) {
     console.error('Failed to create user in database');
+    throw error;
+  }
+}
+
+export async function addUserContact(userId: string, name: string, email?: string, phone?: string) {
+  try {
+    return await db.insert(userContact).values({
+      userId: userId,
+      name: name,
+      email: email,
+      phone: phone,
+      createdAt: new Date(),  // Ensures timestamp in UTC
+    });
+  } catch (error) {
+    console.error('Failed to create user contact in database', error);
     throw error;
   }
 }

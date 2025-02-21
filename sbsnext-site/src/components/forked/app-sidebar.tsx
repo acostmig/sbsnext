@@ -16,9 +16,9 @@ import {
 } from '@/components/forked/ui/sidebar';
 import Link from 'next/link';
 import { Tooltip, TooltipContent, TooltipTrigger } from './ui/tooltip';
-import { User } from '@/lib/db/schema';
+import { Session } from '@/app/session';
 
-export function AppSidebar({ user }: { user: User | undefined }) {
+export function AppSidebar({ session }: { session: Session | null }) {
   const router = useRouter();
   const { open, setOpenMobile } = useSidebar();
 
@@ -60,10 +60,10 @@ export function AppSidebar({ user }: { user: User | undefined }) {
       </SidebarHeader>
       {open &&
         <SidebarContent >
-          <SidebarHistory user={user} />
+          <SidebarHistory session={session} />
         </SidebarContent>
       }
-      <SidebarFooter>{user && <SidebarUserNav user={user} />}</SidebarFooter>
+      <SidebarFooter>{session && <SidebarUserNav session={session} />}</SidebarFooter>
     </Sidebar>
   );
 }

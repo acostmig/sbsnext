@@ -12,11 +12,24 @@ import {
 
 export const user = pgTable('User', {
   id: uuid('id').primaryKey().notNull().defaultRandom(),
+  createdAt: timestamp('createdAt').notNull(),
   clientIP: varchar('clientIP', { length: 64 }).notNull(),
-  email: varchar('email', { length: 64 })
 });
-
 export type User = typeof user.$inferSelect;
+
+export const userContact = pgTable('UserContact', {
+  id: uuid('id').primaryKey().notNull().defaultRandom(),
+  createdAt: timestamp('createdAt').notNull().defaultNow(),
+  userId: uuid('userId')
+      .notNull()
+      .references(() => user.id),
+  name: varchar('name', { length: 64 }),
+  email: varchar('email', { length: 64 }),
+  phone: varchar('phone', { length: 64 }),
+  
+});
+export type UserContact = typeof userContact.$inferSelect;
+
 
 export const chat = pgTable('Chat', {
   id: uuid('id').primaryKey().notNull().defaultRandom(),
