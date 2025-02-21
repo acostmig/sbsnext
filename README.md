@@ -1,10 +1,10 @@
 # SBSNext Website
 
-Welcome to the **SBSNext** website repository! 🚀
+Welcome to the [**SBSNext**](https://sbsnext.com) website repository! 🚀
 
 ## 📌 About
 
-This repository contains the source code for the **SBSNext** website. It serves as the online presence for **SBSNext**, providing information about our services, projects, and company updates.
+This repository contains the source code for the [**SBSNext**](https://sbsnext.com)  website. It serves as the online presence for [**SBSNext**](https://sbsnext.com) , providing information about our services, projects, and company updates.
 
 ## 🔧 Tech Stack
 
@@ -72,5 +72,5 @@ pnpm --prefix sbsnext-site dev
 
 For any inquiries, reach out via:
 
-- 🌐 Website: SBSNext.com
+- 🌐 Website: https://SBSNext.com
 - ✉️ Email: miguel@sbsnext.com
