@@ -53,13 +53,15 @@ export async function createUser(clientIP: string) {
   }
 }
 
-export async function addUserContact(userId: string, name: string, email?: string, phone?: string) {
+export async function addUserContact(userId: string, name: string, email?: string, org?: string, phone?: string, message?:string) {
   try {
     return await db.insert(userContact).values({
       userId: userId,
       name: name,
       email: email,
       phone: phone,
+      org: org,
+      message:message,
       createdAt: new Date(),  // Ensures timestamp in UTC
     });
   } catch (error) {

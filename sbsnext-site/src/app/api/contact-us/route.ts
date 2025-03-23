@@ -40,7 +40,7 @@ export async function POST(req: Request) {
             return new Response("no message provided", {status: 400})
         }
 
-        addUserContact(userId, formData.name, formData.email, formData.phone);
+        addUserContact(userId, formData.name, formData.email, formData.org, formData.phone, formData.message);
 
         if(process.env.DISABLE_EMAIL?.toLowerCase()==="true")
         {

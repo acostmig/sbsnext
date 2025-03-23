@@ -2,7 +2,7 @@
 import { Description, Dialog, DialogBackdrop, DialogPanel, DialogTitle, Field, Label } from '@headlessui/react'
 
 import { Cross2Icon } from "@radix-ui/react-icons";
-import { Input } from "@headlessui/react";
+import { Input, Textarea } from "@headlessui/react";
 import { ReactElement, useEffect, useState} from "react";
 import React from 'react';
 import { toast } from 'sonner';
@@ -21,6 +21,13 @@ const FormFields = [
     },
     {
         id: 2,
+        label: "Organization",
+        type: "text",
+        name: "org",
+        placeholder: "SBS Next LLC",
+    },
+    {
+        id: 3,
         label: "Email",
         name: "email",
         type: "email",
@@ -29,14 +36,24 @@ const FormFields = [
         required:true,
     },
     {
-        id: 3,
+        id: 4,
         label: "Phone",
         type: "tel",
         name: "phone",
         placeholder: "551-294-4913",
+        required:false
+    },
+    {
+        id: 5,
+        label: "Message",
+        type: "text",
+        name: "message",
+        placeholder: "Message",
     }
-]
+    
+];
 
+type FormField = (typeof FormFields)[number];
 type ContactState = "closed" | "contactUsClicked" | "tellUsWhoYouAre";
 
 export default function ContactUs({ children }: { children: ReactElement }) {
@@ -127,15 +144,7 @@ export default function ContactUs({ children }: { children: ReactElement }) {
                                         >
                                             {field.label}
                                         </Label>
-                                        <Input
-                                            type={field.type}
-                                            name={field.name}
-                                            required = {field.required}
-                                            placeholder={field.placeholder}
-                                            pattern={field.pattern}
-                                            className="inline-flex w-full flex-1 items-center justify-center leading-none  h-[35px] border 
-                                        focus:outline-neutral-500 px-2.5 rounded data-[hover]:shadow data-[focus]:bg-blue-100 
-                                        dark:focus:outline-neutral-950 dark:data-[focus]:bg-neutral-800"  />
+                                        <FieldInput field={field} />
                                     </Field>
                                 ))
                             }
@@ -166,6 +175,33 @@ export default function ContactUs({ children }: { children: ReactElement }) {
 
     );
 }
+
+function FieldInput({field}: {field: FormField}) {
+    const className = `inline-flex w-full flex-1 items-center justify-center leading-none border 
+        focus:outline-neutral-500 px-2.5 rounded data-[hover]:shadow data-[focus]:bg-blue-100 py-1.5
+        dark:focus:outline-neutral-950 dark:data-[focus]:bg-neutral-800`;
+
+    if (field.name === "message") {
+        return (
+            <Textarea
+                name={field.name}
+                required = {field.required}
+                placeholder={field.placeholder}
+                className={className }
+                rows={4} />
+        );
+    }
+    return (
+      <Input
+            type={field.type}
+            name={field.name}
+            required = {field.required}
+            placeholder={field.placeholder}
+            pattern={field.pattern}
+            className={className}
+            height="35px" />
+    );
+  }
 
 export function usePersistentState(key: string, defaultValue: string) {
     const [value, setValue] = useState(() => {

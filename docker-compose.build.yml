@@ -9,5 +9,5 @@ services:
       - NODE_ENV=production
     restart: unless-stopped
     volumes:
-       - ./sbsnext-site/public:/app/public:ro  # ✅ Only hot-reload public files
-       - ./sbsnext-site/next.config.js:/app/next.config.js:ro  # ✅ Keep Next.js config flexible
+       - ./sbsnext-site/public:/app/public:ro  # Only hot-reload public files
+       - ./sbsnext-site/next.config.js:/app/next.config.js:ro  #Keep Next.js config flexible

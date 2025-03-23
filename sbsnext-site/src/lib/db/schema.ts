@@ -25,7 +25,10 @@ export const userContact = pgTable('UserContact', {
       .references(() => user.id),
   name: varchar('name', { length: 64 }),
   email: varchar('email', { length: 64 }),
+  org: varchar('org', { length: 64 }),
   phone: varchar('phone', { length: 64 }),
+  message: varchar('message', { length: 64 }),
+
   
 });
 export type UserContact = typeof userContact.$inferSelect;

@@ -19,17 +19,17 @@ services:
 
       
   postgres-db:
-    image: postgres:15  # ✅ Use official PostgreSQL image
+    image: postgres:15  
     restart: always
     environment:
       POSTGRES_USER: postgres
       POSTGRES_PASSWORD: password
       POSTGRES_DB: db-sbsnext
     ports:
-      - "5432:5432"  # ✅ Expose for local development
+      - "5432:5432"  
     volumes:
-      - ./localdb/postgress_data:/var/lib/postgresql/data  # ✅ Persistent storage (usable in prod & local)
-    healthcheck:  # ✅ Ensure DB is ready before dependent services start
+      - ./localdb/postgress_data:/var/lib/postgresql/data 
+    healthcheck: # Ensure DB is ready before dependent services start
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
       timeout: 5s
@@ -38,20 +38,20 @@ services:
       - app_network
 
   init-migration:
-    image: ghcr.io/acostmig/sbsnext/site:latest  # ✅ Use the same image as site
+    image: ghcr.io/acostmig/sbsnext/site:latest  #  Use pre-built image by CI
     container_name: db_migration
     environment:
       - POSTGRES_URL=postgresql://postgres:password@postgres-db:5432/db-sbsnext
     depends_on:
       postgres-db:
         condition: service_healthy
-    entrypoint: ["/bin/sh", "-c", "pnpm db:migrate"]  # ✅ Run migrations before site starts
-    restart: "no"  # ✅ Exit after running migrations
+    entrypoint: ["/bin/sh", "-c", "pnpm db:migrate"]  # Run migrations before site starts
+    restart: "no"  # Exit after running migrations
     networks:
       - app_network
 
   site:
-    image: ghcr.io/acostmig/sbsnext/site:latest  # ✅ Use pre-built image
+    image: ghcr.io/acostmig/sbsnext/site:latest  # Use pre-built image by CI
     container_name: sbsnext_site
     env_file: ".env"
     depends_on:
@@ -64,8 +64,8 @@ services:
       - POSTGRES_URL=postgresql://postgres:password@postgres-db:5432/db-sbsnext
     restart: unless-stopped
     volumes:
-       - ./sbsnext-site/public:/app/public:ro  # ✅ Only hot-reload public files
-       - ./sbsnext-site/next.config.js:/app/next.config.js:ro  # ✅ Keep Next.js config flexible
+       - ./sbsnext-site/public:/app/public:ro  # Only hot-reload public files
+       - ./sbsnext-site/next.config.js:/app/next.config.js:ro  # Keep Next.js config flexible
     networks:
       - app_network
 
