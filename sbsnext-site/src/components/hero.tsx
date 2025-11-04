@@ -8,8 +8,8 @@ export const Services = [
   {
     id: 2,
     title: "Artificial Inteligence",
-    "description": "Leveraging AI/ML SDKs to build intelligent solutions—ranging from chatbots and code generators to predictive analytics and decision-making tools that drive innovation and efficiency across industries."
-    , icon: LightBulbIcon,
+    description: "Building custom AI solutions tailored to your business needs using vector databases to consume your data. From intelligent chatbots and knowledge bases to automated workflows and decision-support tools—whatever your organization requires to leverage AI effectively.",
+    icon: LightBulbIcon,
   },
   {
     id: 3,
