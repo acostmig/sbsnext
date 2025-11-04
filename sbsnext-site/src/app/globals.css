@@ -137,7 +137,7 @@ html, body {
     --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --color-background: var(--color-black);
     --color-foreground: var(--color-white);
@@ -180,7 +180,7 @@ html, body {
     --sidebar-border: hsl(240 3.7% 15.9%);
     --sidebar-ring: hsl(217.2 91.2% 59.8%);
   }
-}
+} */
 
 .cta-button {
   @apply rounded-md px-3.5 py-2.5 text-sm font-semibold text-white 
