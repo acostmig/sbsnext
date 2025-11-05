@@ -102,7 +102,7 @@ html, body {
     --sidebar-border: hsl(220 13% 91%);
     --sidebar-ring: hsl(217.2 91.2% 59.8%);
 }
-.dark {
+/* .dark {
     --background: hsl(240 10% 3.9%);
     --foreground: hsl(0 0% 98%);
     --card: hsl(240 10% 3.9%);
@@ -135,7 +135,7 @@ html, body {
     --sidebar-accent-foreground: hsl(240 4.8% 95.9%);
     --sidebar-border: hsl(240 3.7% 15.9%);
     --sidebar-ring: hsl(217.2 91.2% 59.8%);
-}
+} */
 
 /* @media (prefers-color-scheme: dark) {
   :root {

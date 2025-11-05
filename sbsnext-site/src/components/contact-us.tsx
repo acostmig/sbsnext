@@ -61,14 +61,31 @@ export default function ContactUs({ children }: { children: ReactElement }) {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [contactState, setContactState] = useState<ContactState>("closed");
     const [formSubmitted, setFormSubmitted] = usePersistentState("contactFormSubmitted", "false");
+    const [isMounted, setIsMounted] = useState(false);
     const pathname = usePathname(); // Get current path
 
+    // Ensure we're on the client
     useEffect(() => {
+        setIsMounted(true);
+    }, []);
+
+    useEffect(() => {
+        // Only run on client side after component is mounted
+        if (!isMounted) return;
+
         if (pathname.startsWith("/chat") && formSubmitted !== "true") {
-            setIsOpen(true);
-            setContactState("tellUsWhoYouAre");
+            // Check if we've shown the dialog in the last minute
+            const lastShownTime = localStorage.getItem("contactFormLastShown");
+            const now = Date.now();
+            const oneMinute = 60 * 1000; // 1 minute in milliseconds
+
+            if (!lastShownTime || (now - parseInt(lastShownTime)) > oneMinute) {
+                setIsOpen(true);
+                setContactState("tellUsWhoYouAre");
+                localStorage.setItem("contactFormLastShown", now.toString());
+            }
         }
-    }, [pathname]);
+    }, [pathname, formSubmitted, isMounted]);
 
     
     const handleButtonClick = () => {
@@ -113,7 +130,7 @@ export default function ContactUs({ children }: { children: ReactElement }) {
 
     return (
         <>
-            <div onClick={handleButtonClick}>
+            <div onClick={() => {handleButtonClick()}}>
                 {children}
             </div>
 

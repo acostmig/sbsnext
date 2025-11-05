@@ -10,7 +10,7 @@ import { cn } from '@/lib/utils';
 import { Button } from '@/components/forked/ui/button';
 import { Input } from '@/components/forked/ui/input';
 import { Separator } from '@/components/forked/ui/separator';
-import { Sheet, SheetContent } from '@/components/forked/ui/sheet';
+import { Sheet, SheetContent, SheetTitle } from '@/components/forked/ui/sheet';
 import { Skeleton } from '@/components/forked/ui/skeleton';
 import {
   Tooltip,
@@ -18,6 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger,
 } from '@/components/forked/ui/tooltip';
+import { VisuallyHidden } from '@/components/forked/ui/visually-hidden';
 
 const SIDEBAR_COOKIE_NAME = 'sidebar:state';
 const SIDEBAR_COOKIE_MAX_AGE = 60 * 60 * 24 * 7;
@@ -214,6 +215,9 @@ const Sidebar = React.forwardRef<
             }
             side={side}
           >
+            <VisuallyHidden>
+              <SheetTitle>Sidebar</SheetTitle>
+            </VisuallyHidden>
             <div className="flex h-full w-full flex-col">{children}</div>
           </SheetContent>
         </Sheet>
