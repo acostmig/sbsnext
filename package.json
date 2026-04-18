@@ -8,7 +8,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "biome check src",
-    "format": "biome format --write src"
+    "format": "biome format --write src",
+    "og:generate": "node scripts/generate-og.mjs"
   },
   "dependencies": {
     "@ai-sdk/react": "^1.1.20",

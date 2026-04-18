@@ -5,6 +5,7 @@ type BuildMetaArgs = {
   title: string;
   description: string;
   path?: string;
+  image?: string;
   keywords?: readonly string[];
   noIndex?: boolean;
 };
@@ -13,10 +14,14 @@ export function buildMetadata({
   title,
   description,
   path = "/",
+  image = "/images/og-default.png",
   keywords,
   noIndex = false,
 }: BuildMetaArgs): Metadata {
   const url = `${SITE.url}${path}`;
+  const absoluteImage = image.startsWith("http")
+    ? image
+    : `${SITE.url}${image}`;
   const resolvedKeywords = keywords ? [...keywords] : [...SITE.keywords];
 
   return {
@@ -31,6 +36,14 @@ export function buildMetadata({
       title,
       description,
       locale: "en_US",
+      images: [
+        {
+          url: absoluteImage,
+          width: 1200,
+          height: 630,
+          alt: title,
+        },
+      ],
     },
     twitter: {
       card: "summary_large_image",
@@ -38,6 +51,7 @@ export function buildMetadata({
       creator: SITE.twitter,
       title,
       description,
+      images: [absoluteImage],
     },
     robots: noIndex
       ? { index: false, follow: false }

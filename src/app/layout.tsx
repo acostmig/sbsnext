@@ -38,6 +38,14 @@ export const metadata: Metadata = {
     title: `${SITE.name} — ${SITE.tagline}`,
     description: SITE.description,
     locale: "en_US",
+    images: [
+      {
+        url: "/images/og-default.png",
+        width: 1200,
+        height: 630,
+        alt: `${SITE.name} — ${SITE.tagline}`,
+      },
+    ],
   },
   twitter: {
     card: "summary_large_image",
@@ -45,6 +53,7 @@ export const metadata: Metadata = {
     creator: SITE.twitter,
     title: `${SITE.name} — ${SITE.tagline}`,
     description: SITE.description,
+    images: ["/images/og-default.png"],
   },
   robots: {
     index: true,
@@ -68,11 +77,6 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: "/images/logo-192x192.png", sizes: "192x192" }],
     shortcut: "/images/logo-192x192.png",
-  },
-  formatDetection: {
-    telephone: true,
-    email: true,
-    address: false,
   },
 };
 
