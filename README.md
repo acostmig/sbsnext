@@ -1,76 +1,78 @@
-# SBSNext Website
+# SBSNext
 
-Welcome to the [**SBSNext**](https://sbsnext.com) website repository! 🚀
+Static Next.js frontend (GitHub Pages) + Cloudflare Worker backend. $0/month hosting. One push deploys both.
 
-## 📌 About
+## How it's wired
 
-This repository contains the source code for the [**SBSNext**](https://sbsnext.com)  website. It serves as the online presence for [**SBSNext**](https://sbsnext.com) , providing information about our services, projects, and company updates.
+Single `deploy.yml` workflow runs on every push to `main`:
 
-## 🔧 Tech Stack
+1. **Worker job** — builds and deploys the Cloudflare Worker (chat + contact endpoints), pushing `OPENAI_API_KEY` and `RESEND_API_KEY` from GitHub secrets into Cloudflare. Outputs the worker URL.
+2. **Site job** — builds Next.js with `NEXT_PUBLIC_API_URL` set to the worker URL from step 1, deploys `out/` to GitHub Pages.
 
-- **Frontend**: [Next.js, Tailwindcss]
-- **Backend**: [Next.js Hybrid model (app)]
-- **Database**: PostgreSQL
-- **Infrastructure CI**: Docker image is built and pushed to Github Container Registy (GHCR)
-- **Infrastructure**: Virtual Machine pulls the site's image and runs the orchestration of containers via Docker Compose (Nginx, DB Migration and Website).
+The site is always pinned to the latest worker URL — nothing to configure manually after setup.
 
-## 🛠 First-Time Setup
+## First-time setup
 
-1. **Clone the Repository**
-   ```sh
-   git clone https://github.com/acostmig/sbsnext.git
-   cd sbsnext
-   ```
+### 1. Cloudflare
+- Sign up at https://dash.cloudflare.com/sign-up (free, no CC)
+- **My Profile → API Tokens → Create Token** → "Edit Cloudflare Workers" template → copy token
+- Note your **Account ID** (right sidebar of dashboard)
 
-2. **Install Dependencies**
-   ```sh
-   pnpm --prefix sbsnext-site install
-   ```
+### 2. Resend
+- Sign up at https://resend.com
+- Generate an API key
+- (Later) verify `sbsnext.com` as a sending domain so you can change `CONTACT_FROM` in [worker/wrangler.toml](worker/wrangler.toml) to `hello@sbsnext.com`
 
-3. **Start PostgreSQL Database**
-   ```sh
-   docker-compose up postgres-db
-   ```
-   This will create a directory for the database (`localdb`), which is gitignored.
+### 3. GitHub repo → Settings → Secrets and variables → Actions
+Add these four **secrets**:
+- `CLOUDFLARE_API_TOKEN`
+- `CLOUDFLARE_ACCOUNT_ID`
+- `OPENAI_API_KEY`
+- `RESEND_API_KEY`
 
-4. **Create Environment Variables**
-   - **In the root directory**, create a `.env` file with the following content:
-     ```sh
-     POSTGRES_URL="postgresql://postgres:password@localhost:5432/db-sbsnext"
-     ```
+No variables needed — the workflow derives the API URL automatically.
 
-   - **Inside `sbsnext-site`**, create a `.env.local` file:
-     ```sh
-     POSTGRES_URL="postgresql://postgres:password@localhost:5432/db-sbsnext"
-     RESEND_API_KEY=<your-resend-api-key> # for contact-us email
-     DISABLE_EMAIL="true" # disables sending emails
-     OPENAI_API_KEY=<your-openai-api-key> # for chat
-     ```
+### 4. GitHub → Settings → Pages
+Source: **GitHub Actions**
 
-5. **Run Database Migrations**
-   ```sh
-   pnpm --prefix sbsnext-site db:migrate
-   ```
+### 5. Push
+```bash
+git push origin main
+```
+Watch the Actions tab. Worker deploys first, then the site builds with its URL baked in.
 
-## ▶️ Start Development
+### 6. DNS cutover (Route 53)
+Once the GH Pages deploy succeeds:
+- `sbsnext.com` → A records: `185.199.108.153`, `185.199.109.153`, `185.199.110.153`, `185.199.111.153`
+- `www.sbsnext.com` → CNAME `acostmig.github.io`
 
-If the PostgreSQL database is not already running, start it:
+Nameservers stay at AWS.
 
-```sh
-docker-compose up postgres-db
+## Local dev
+
+```bash
+# frontend on http://localhost:4000
+pnpm install
+cp .env.local.example .env.local
+pnpm dev
+
+# worker on http://localhost:8787 — another terminal
+cd worker
+pnpm install
+# create worker/.dev.vars with OPENAI_API_KEY, RESEND_API_KEY, DISABLE_EMAIL
+pnpm dev
 ```
 
-Then, run the development server:
+## Structure
 
-```sh
-pnpm --prefix sbsnext-site dev
 ```
-
-
-
-## 📬 Contact
-
-For any inquiries, reach out via:
-
-- 🌐 Website: https://SBSNext.com
-- ✉️ Email: miguel@sbsnext.com
+.
+├── .github/workflows/deploy.yml    # one-shot deploy (worker → site)
+├── src/                            # Next.js app
+├── public/
+├── worker/                         # Cloudflare Worker
+│   ├── src/
+│   └── wrangler.toml
+├── next.config.ts                  # output: "export", trailingSlash: true
+└── package.json
+```

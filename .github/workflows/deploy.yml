@@ -1,0 +1,102 @@
+name: Deploy
+
+on:
+  push:
+    branches: [main]
+    paths-ignore:
+      - "**.md"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: deploy
+  cancel-in-progress: true
+
+jobs:
+  worker:
+    name: Deploy Cloudflare Worker
+    runs-on: ubuntu-latest
+    outputs:
+      url: ${{ steps.deploy.outputs.deployment-url }}
+    defaults:
+      run:
+        working-directory: worker
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+          cache-dependency-path: worker/pnpm-lock.yaml
+      - run: pnpm install --frozen-lockfile
+
+      - id: deploy
+        uses: cloudflare/wrangler-action@v3
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          workingDirectory: worker
+          secrets: |
+            OPENAI_API_KEY
+            RESEND_API_KEY
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
+
+      - name: Verify worker URL was captured
+        run: |
+          URL="${{ steps.deploy.outputs.deployment-url }}"
+          if [ -z "$URL" ]; then
+            echo "::error::wrangler-action did not emit a deployment-url output"
+            exit 1
+          fi
+          echo "Worker URL: $URL"
+
+  site:
+    name: Build & deploy site
+    needs: worker
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.pages.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Verify API URL is set
+        run: |
+          if [ -z "${{ needs.worker.outputs.url }}" ]; then
+            echo "::error::Worker URL from previous job is empty"
+            exit 1
+          fi
+          echo "Will build with NEXT_PUBLIC_API_URL=${{ needs.worker.outputs.url }}"
+
+      - name: Build
+        env:
+          NEXT_PUBLIC_API_URL: ${{ needs.worker.outputs.url }}
+          NEXT_PUBLIC_SITE_URL: https://sbsnext.com
+        run: pnpm build
+
+      - name: Add .nojekyll
+        run: touch out/.nojekyll
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: out
+
+      - id: pages
+        uses: actions/deploy-pages@v4

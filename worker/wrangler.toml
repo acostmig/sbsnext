@@ -1,0 +1,14 @@
+name = "sbsnext-api"
+main = "src/index.ts"
+compatibility_date = "2025-02-14"
+compatibility_flags = ["nodejs_compat"]
+
+workers_dev = true
+
+[vars]
+DISABLE_EMAIL = "false"
+ALLOWED_ORIGINS = "https://sbsnext.com,https://acostmig.github.io,http://localhost:4000"
+CONTACT_TO = "miguel@sbsnext.com,acostmig@gmail.com"
+CONTACT_FROM = "SBSNext <no-reply@qaplayer.com>"
+
+# Secrets set via: wrangler secret put OPENAI_API_KEY / RESEND_API_KEY

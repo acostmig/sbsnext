@@ -1,0 +1,19 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(curl -sI https://miguel-acosta.com/)",
+      "Bash(nslookup miguel-acosta.com)",
+      "Bash(pnpm install *)",
+      "Bash(pnpm build *)",
+      "Skill(update-config)",
+      "Skill(update-config:*)",
+      "Bash(pnpm dev *)",
+      "Bash(curl -sS -X POST http://127.0.0.1:8787/api/chat -H \"Content-Type: application/json\" -H \"Origin: http://localhost:4000\" -d '{\"messages\":[{\"role\":\"user\",\"content\":\"In one sentence, what does SBSNext do?\"}]}')",
+      "Bash(curl -sL -A \"Mozilla/5.0 \\(Windows NT 10.0; Win64; x64\\) AppleWebKit/537.36\" --max-time 20 https://miguel-acosta.com)",
+      "Bash(curl -sL -A \"Mozilla/5.0\" --max-time 20 https://www.miguel-acosta.com)",
+      "Bash(curl -sL -A \"Mozilla/5.0\" --max-time 20 https://miguelacosta.com)",
+      "Bash(curl -sL -A \"Mozilla/5.0\" --max-time 20 https://miguel-acosta.com)",
+      "WebSearch"
+    ]
+  }
+}
